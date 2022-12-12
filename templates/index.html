@@ -1,0 +1,1317 @@
+<!doctype html>
+<html>
+<head>
+<title>Polifonia Corpus</title>
+<link rel="icon" type="image/x-icon" href="static/svg/Polifonia-favicon.svg">
+<meta name="description" content="polifonia corpus page">
+<meta name="keywords" content="polifonia corpus interrogation">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script> $SCRIPT_ROOT = {{ request.script_root|tojson }};</script>
+<script src="static/script.js"></script>
+<link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+<div class="header" id="header">
+	<img class="header-logo" id="header-logo" onclick="openMain()" src="static/svg/Polifonia-logo-Corpus.svg">
+	<span id="header-menu" class="header-menu">
+		<p class="about-button" id="about-button" onclick="openAbout()">ABOUT</p>
+		<p class="header-button" id="header-button" onclick="openGuide()">GUIDE</p>
+	</span>
+	<div class="separator" id="separator"></div>
+</div>
+<div class="infobox" id="infobox">
+	<div class="general-title">
+		<p class="infobox-title">Explore music concepts <br> and texts from the <span class="highlight">Polifonia</span> Project. </p>
+		<p class="infobox-p">The corpus in numbers: <span class="active-stats-module">Books</span></p>
+	</div>
+	<div class="general-stats">
+		<div class="icon_stat">
+			<img class="icon-stat"  src="static/svg/stat-icon-1.svg">
+		</div>
+		<div class="tot_stat">
+			<p class="label_stat">documents</p>
+			<p class="count_stat" id="count_stat_1"><span class='count'>54</span>.<span class='count'>238</span></p>
+		</div>
+		<div class="icon_stat">
+			<img class="icon-stat"  src="static/svg/stat-icon-2.svg">
+		</div>
+		<div class="tot_stat">
+			<p class="label_stat">sentences</p>
+			<p class="count_stat" id="count_stat_2"><span class='count'>1</span>.<span class='count'>772</span>.<span class='count'>330</span></p>
+		</div>
+		<div class="icon_stat">
+			<img class="icon-stat"  src="static/svg/stat-icon-3.svg">
+		</div>
+		<div class="tot_stat">
+			<p class="label_stat">tokens</p>
+			<p class="count_stat" id="count_stat_3"><span class='count'>4</span>.<span class='count'>408</span>.<span class='count'>724</span></p>
+		</div>
+		<div class="icon_stat">
+			<img class="icon-stat"  src="static/svg/stat-icon-4.svg">
+		</div>
+		<div class="tot_stat">
+			<p class="label_stat">types</p>
+			<p class="count_stat" id="count_stat_4"><span class='count'>40</span>.<span class='count'>315</span>.<span class='count'>179</span></p>
+		</div>
+		<div class="icon_stat">
+			<img class="icon-stat"  src="static/svg/stat-icon-5.svg">
+		</div>
+		<div class="tot_stat">
+			<p class="label_stat">links</p>
+			<p class="count_stat" id="count_stat_5"><span class="count">1</span>.<span class='count'>939</span>.<span class='count'>962</span></p>
+		</div>
+		<div class="icon_stat" id="stat-entities-icon">
+			<img class="icon-stat"  src="static/svg/stat-icon-6.svg">
+		</div>
+		<div class="tot_stat" id="stat-entities">
+			<p class="label_stat">entities</p>
+			<p class="count_stat" id="count_stat_6"><span class="count">0</span></p>
+		</div>
+
+	</div>
+</div>
+<div class="infobox" id="infobox_about">
+	<div class="general-title"><p class="infobox-title">Learn more <span class="highlight">About</span> <br> the corpus of the Project. </p></div>
+	<div class="about-content">
+		<p>The Polifonia Textual Corpus is a plurilingual diachronic corpus focused on Musical Heritage (MH) covering Italian, English, French, Spanish and Dutch.  Natural LanguageProcessing (NLP) techniques were used to process the corpus and produce automatic morphosyntactic, semanticand MH-specific annotations. Custom APIs have been developed and released to enable domain experts, scholars and music professionals to leverage the annotations produced to perform advanced structured queries on the corpus.The available interrogation capabilities overcome the basic keyword-based search, offering the possibility of querying the corpus by taking advantage of the advanced semantic and MH-specific information encoded in the annotation.</p>
+		<div class="download-documents">
+			<div class="download-document">
+			<a href="static/Polifonia_D4.1_v1.0.pdf" download><img class="deliverable-icon" id="deliverable-icon-1" src="static/svg/D41.svg"></a>
+			<p>D4.1 - Plurilingual corpora containing source texts in English, French, Spanish and German</p>
+		</div>
+			<div class="download-document">
+			<a href="static/Polifonia_D4.2_v1.0.pdf" download><img class="deliverable-icon" id="deliverable-icon-2" src="static/svg/D42.svg"></a>
+			<p class="download-p">D4.2 - Interrogation and annotation of plurilingual corpora for discourseanalysis</p>
+		</div>
+			<div class="download-document">
+			<a href="https://github.com/polifonia-project/Polifonia-Corpus" class="github-icon" download><img class="deliverable-icon" id="deliverable-icon-3" src="static/svg/github-icon.svg"></a>
+			<p>Github Repository</p>
+		</div>
+		</div>
+		<p class="about-sub-title"><span class="highlight">Data</span> <br></p>
+		<p>The Polifonia Textual Corpus data, metadata and statistics, along with its annotations and interrogation tools are part of the Polifonia Ecosystem and oblige the Ecosystem’s rulebook.  They are released through the dedicated Polifonia Corpus GitHub repository and interactive website. The corpus is released under CC BY license as a set of metadata that allows the reproduction of the whole corpus.  We remark that the texts included in the corpus are not published in their integral form because they are subject to heterogeneous licensing. As Deliverable 4.1 details, the initial intention of producing a textual corpus on MH of around 1 million words for five languages (English, French, German, Italian and Spanish) underwent a substantial adjustment during the unfolding of the project. The large modularized corpus developed overcame the original expectations per dimension (it eventually contains more than 100 million words for each language) and per language coverage (it also includes Dutch).  A significant part of the sources of the corpus was only available as images or pdf files.  We leveraged Optical Character Recognition (OCR), state-of-the-art technology that addresses this problem, to convert them in a processable format. Together with the corpus, WP4 also developed a specialized lexicon, extensively described in D4.1.</p> <p>The Polifonia Lexicon is a linguistic resource representing the MH-specific terminology and concepts in six languages, organized in the style of WordNet, as sense-equivalent classes called synsets, each associated with its lexicalizations.</p>
+		<p class="about-sub-title"><span class="highlight">Modules</span> <br></p>
+		<p>The Polifonia Textual Corpus is at the same time representative of discourse on Musical Heritage in different languages through an historical perspectives, and also specific to single case studies represented by the Pilots. Heterogeneous requirements lead the corpus to be organized into four modules: The Encyclopedic Module, The BookModule, The Periodical Module and The Pilots Module. Each module has its features and development methodologies. Each module (except the Pilot module) contains documents in six languages: Dutch (NL), English (EN), French (FR), German (DE),Italian (IT) and Spanish (ES). </p>
+		<p>Learn more:</p>
+	<div class="module-info-boxset">
+		<div class="module-info-title module-info-title-first" id ="showModule1" value="module-info-box-1">The Wikipedia module</div>
+		<div class="module-info-box" id="module-info-box-1"><p>It was created selecting from <strong><a href="http://lcl.uniroma1.it/babeldomains/">BabelNet domains</a></strong> all the <strong><a href="https://www.wikipedia.org">Wikipedia</a></strong> musical pages.</p>
+		<h4 id="metadata">Metadata</h4>
+		<p>The metadata of the module can be downloaded from:</p>
+		<table>
+<thead>
+<tr>
+<th>lang</th>
+<th>url</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DE</td>
+<td><a href="https://doi.org/10.5281/zenodo.6671494"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6671494.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>EN</td>
+<td><a href="https://doi.org/10.5281/zenodo.6671510"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6671510.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>ES</td>
+<td><a href="https://doi.org/10.5281/zenodo.6670984"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6670984.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>FR</td>
+<td><a href="https://doi.org/10.5281/zenodo.6671560"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6671560.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>IT</td>
+<td><a href="https://doi.org/10.5281/zenodo.6671571"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6671571.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>NL</td>
+<td><a href="https://doi.org/10.5281/zenodo.6671519"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6671519.svg" alt="DOI"></a></td>
+</tr>
+</tbody>
+</table>
+		<h4 id="data">Data</h4>
+		<p>The data of the module can be downloaded from:</p>
+		<table>
+<thead>
+<tr>
+<th>lang</th>
+<th>url</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DE</td>
+<td><a href="https://doi.org/10.5281/zenodo.6671663"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6671663.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>EN</td>
+<td><a href="https://doi.org/10.5281/zenodo.6671681"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6671681.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>ES</td>
+<td><a href="https://doi.org/10.5281/zenodo.6671673"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6671673.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>FR</td>
+<td><a href="https://doi.org/10.5281/zenodo.6671728"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6671728.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>IT</td>
+<td><a href="https://doi.org/10.5281/zenodo.6671734"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6671734.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>NL</td>
+<td><a href="https://doi.org/10.5281/zenodo.6671738"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6671738.svg" alt="DOI"></a></td>
+</tr>
+</tbody>
+</table>
+		<h4 id="statistics">Statistics</h4>
+		<p>Some statistics of the module are provided below:</p>
+		<table>
+<thead>
+<tr>
+<th>lang</th>
+<th>#documents</th>
+<th>#sentences</th>
+<th>#tokens</th>
+<th>#types</th>
+<th>#links</th>
+<th>entities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DE</td>
+<td>53.986</td>
+<td>1.459.265</td>
+<td>44.523.547</td>
+<td>9.732.779</td>
+<td>12.561.177</td>
+<td>2.197.438</td>
+</tr>
+<tr>
+<td>EN</td>
+<td>250.413</td>
+<td>7.362.272</td>
+<td>198.257.649</td>
+<td>1.191.901</td>
+<td>54.059.979</td>
+<td>25.786.043</td>
+</tr>
+<tr>
+<td>ES</td>
+<td>57.891</td>
+<td>1.247.583</td>
+<td>36.229.557</td>
+<td>537.465</td>
+<td>7.171.759</td>
+<td>2.996.185</td>
+</tr>
+<tr>
+<td>FR</td>
+<td>65.970</td>
+<td>2.901.295</td>
+<td>82.979.944</td>
+<td>653.489</td>
+<td>19.208.818</td>
+<td>6.212.997</td>
+</tr>
+<tr>
+<td>IT</td>
+<td>77.986</td>
+<td>1.548.981</td>
+<td>47.497.487</td>
+<td>491.500</td>
+<td>14.519.636</td>
+<td>2.649.949</td>
+</tr>
+<tr>
+<td>NL</td>
+<td>36.609</td>
+<td>1.246.881</td>
+<td>23.539.528</td>
+<td>479.962</td>
+<td>4.716.170</td>
+<td>2.453.332</td>
+</tr>
+</tbody>
+</table></div>
+		<div class="module-info-title" >The Books module</div>
+		<div class="module-info-box">
+<p>It was created using the <strong><a href="https://github.com/polifonia-project/textual-corpus-population">Polifonia Textual Corpus Population</a></strong> module that allows to access different digital libraries (such as <strong><a href="https://gallica.bnf.fr">BNF</a></strong> and <strong><a href="http://www.bne.es">BNE</a></strong>) and to select from them documents related to music. The PTCPM allows also to perform optical character recognition (OCR) on images and PDF files. </p>
+<h4 id="metadata">Metadata</h4>
+<p>The metadata of the module can be downloaded from:</p>
+<table>
+<thead>
+<tr>
+<th>lang</th>
+<th>url</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DE</td>
+<td><a href="https://doi.org/10.5281/zenodo.6772115"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6772115.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>EN</td>
+<td><a href="https://doi.org/10.5281/zenodo.6772136"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6772136.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>ES</td>
+<td><a href="https://doi.org/10.5281/zenodo.6772131"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6772131.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>FR</td>
+<td><a href="https://doi.org/10.5281/zenodo.6772142"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6772142.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>IT</td>
+<td><a href="https://doi.org/10.5281/zenodo.6772137"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6772137.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>NL</td>
+<td><a href="https://doi.org/10.5281/zenodo.6772145"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6772145.svg" alt="DOI"></a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="data">Data</h4>
+<p>The data of the module cannot be downloaded due to copyright issue.
+However, it is possible to reconstruct the corpus using the metadata provided in the previous section.
+Furthermore, the data processed and annotated can be accessed interrogating the corpus (how to interrogate the corpus is explained in a README.md file inside the interrogation folder of this repository).</p>
+<h4 id="statistics">Statistics</h4>
+<p>Some statistics of the module are provided below:</p>
+<table>
+<thead>
+<tr>
+<th>lang</th>
+<th>#documents</th>
+<th>#sentences</th>
+<th>#types</th>
+<th>#tokens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DE</td>
+<td>237</td>
+<td>38.633</td>
+<td>121.530</td>
+<td>489.225</td>
+</tr>
+<tr>
+<td>EN</td>
+<td>360</td>
+<td>49.595</td>
+<td>185.280</td>
+<td>940.232</td>
+</tr>
+<tr>
+<td>ES</td>
+<td>41.093</td>
+<td>731.606</td>
+<td>1.852.430</td>
+<td>20.180.197</td>
+</tr>
+<tr>
+<td>FR</td>
+<td>265</td>
+<td>633.173</td>
+<td>1.305.283</td>
+<td>14.354.611</td>
+</tr>
+<tr>
+<td>IT</td>
+<td>12200</td>
+<td>202.730</td>
+<td>405.099</td>
+<td>2.571.090</td>
+</tr>
+<tr>
+<td>NL</td>
+<td>83</td>
+<td>116.593</td>
+<td>539.102</td>
+<td>1.779.824</td>
+</tr>
+</tbody>
+</table>
+		</div>
+		<div class="module-info-title" >The Periodicals module</div>
+		<div class="module-info-box">
+<p>It was created with the help of musicologists that provided the titles of different influencial music periodicals.</p>
+<h4 id="metadata">Metadata</h4>
+<p>The metadata of the module can be downloaded from:</p>
+<table>
+<thead>
+<tr>
+<th>lang</th>
+<th>url</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DE</td>
+<td><a href="https://doi.org/10.5281/zenodo.6761779"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6761779.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>EN</td>
+<td><a href="https://doi.org/10.5281/zenodo.6671912"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6671912.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>ES</td>
+<td><a href="https://doi.org/10.5281/zenodo.6761787"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6761787.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>FR</td>
+<td><a href="https://doi.org/10.5281/zenodo.6761794"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6761794.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>IT</td>
+<td><a href="https://doi.org/10.5281/zenodo.6761806"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6761806.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>NL</td>
+<td><a href="https://doi.org/10.5281/zenodo.6761809"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6761809.svg" alt="DOI"></a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="data">Data</h4>
+<p>The data of the module cannot be downloaded due to copyright issue.
+However, it is possible to reconstruct the corpus using the metadata provided in the previous section.
+Furthermore, the data processed and annotated can be accessed interrogating the corpus (how to interrogate the corpus is explained in a README.md file inside the interrogation folder of this repository).</p>
+<h4 id="statistics">Statistics</h4>
+<p>Some statistics of the module are provided below:</p>
+<table>
+<thead>
+<tr>
+<th>lang</th>
+<th>#documents</th>
+<th>#sentences</th>
+<th>#types</th>
+<th>#tokens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DE</td>
+<td>705</td>
+<td>121.113</td>
+<td>544.376</td>
+<td>2.405.289</td>
+</tr>
+<tr>
+<td>EN</td>
+<td>2.868</td>
+<td>4.400.015</td>
+<td>7.342.527</td>
+<td>76.180.398</td>
+</tr>
+<tr>
+<td>ES</td>
+<td>455</td>
+<td>87.025</td>
+<td>677.041</td>
+<td>3.170.480</td>
+</tr>
+<tr>
+<td>FR</td>
+<td>349</td>
+<td>329.166</td>
+<td>696.427</td>
+<td>5.111.915</td>
+</tr>
+<tr>
+<td>IT</td>
+<td>1.251</td>
+<td>433.465</td>
+<td>992.902</td>
+<td>7.879.459</td>
+</tr>
+<tr>
+<td>NL</td>
+<td>125</td>
+<td>187.350</td>
+<td>716.506</td>
+<td>3.880.499</td>
+</tr>
+</tbody>
+</table>
+		</div>
+		<div class="module-info-title module-info-title-last">The Polifonia Pilots module</div>
+		<div class="module-info-box module-info-box-last">
+<p>It was created collecting the textual material selected by five <strong><a href="https://polifonia-project.eu/pilots/">Polifonia Pilots</a></strong>:</p>
+<ul>
+<li>BELLS</li>
+<li>CHILD</li>
+<li>MEETUPS</li>
+<li>MUSICBO</li>
+<li>ORGANS</li>
+</ul>
+<h4 id="metadata">Metadata</h4>
+<p>The metadata of the module can be downloaded from:</p>
+<table>
+<thead>
+<tr>
+<th>Pilot</th>
+<th>url</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BELLS</td>
+<td><a href="https://doi.org/10.5281/zenodo.6672061"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6672061.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>CHILD</td>
+<td><a href="https://doi.org/10.5281/zenodo.6672093"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6672093.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>MEETUPS</td>
+<td><a href="https://doi.org/10.5281/zenodo.6672133"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6672133.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>MUSICBO</td>
+<td><a href="https://doi.org/10.5281/zenodo.6672165"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6672165.svg" alt="DOI"></a></td>
+</tr>
+<tr>
+<td>ORGANS</td>
+<td><a href="https://doi.org/10.5281/zenodo.6672193"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6672193.svg" alt="DOI"></a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="data">Data</h4>
+<p>The data of the Pilots Module of the Polifonia textual Corpus collected for Bells, MusicBo and Organs pilots cannot be published in their integral form because they are subject to heterogeneous license restrictions. The respective set of published metadata (see table above) allows for the reproduction of the whole corpora. Texts collected for Child and Meetups Pilots are royalty-free, therefore we report links to retrieve them from their corresponding GitHub repositories:</p>
+<table>
+<thead>
+<tr>
+<th>Pilot</th>
+<th>url</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CHILD</td>
+<td><a href="https://github.com/polifonia-project/documentary-evidence-benchmark/tree/main/corpus">https://github.com/polifonia-project/documentary-evidence-benchmark/tree/main/corpus</a></td>
+</tr>
+<tr>
+<td>MEETUPS</td>
+<td><a href="https://github.com/polifonia-project/meetups_pilot/tree/main/cleanText">https://github.com/polifonia-project/meetups_pilot/tree/main/cleanText</a></td>
+</tr>
+</tbody>
+</table>
+<p>However, it is possible to reconstruct the corpus using the metadata provided in the previous section.
+Furthermore, the data processed and annotated can be accessed interrogating the corpus (how to interrogate the corpus is explained in a README.md file inside the interrogation folder of this repository).</p>
+<h4 id="statistics">Statistics</h4>
+<p>Some statistics of the module are provided below:</p>
+<table>
+<thead>
+<tr>
+<th>pilot</th>
+<th>#documents</th>
+<th>#sentences</th>
+<th>#types</th>
+<th>#tokens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BELLS</td>
+<td>59</td>
+<td>18.481</td>
+<td>128.061</td>
+<td>434.439</td>
+</tr>
+<tr>
+<td>CHILD</td>
+<td>30</td>
+<td>157.815</td>
+<td>361.550</td>
+<td>3.442.840</td>
+</tr>
+<tr>
+<td>MEETUPS</td>
+<td>19.476</td>
+<td>822.861</td>
+<td>1.631.371</td>
+<td>21.536.135</td>
+</tr>
+<tr>
+<td>MUSICBO</td>
+<td>46</td>
+<td>51.781</td>
+<td>289.247</td>
+<td>1.412.456</td>
+</tr>
+<tr>
+<td>ORGANS</td>
+<td>1.660</td>
+<td>25.647</td>
+<td>45.298</td>
+<td>368.439</td>
+</tr>
+</tbody>
+</table>
+		</div>
+	</div>
+	    <p class="about-sub-title"><span class="highlight">Annotations</span> <br></p>
+		<p>The Polifonia Textual Corpus was processed using top-notch Natural Language Processing technologies in order to automatically extrapolate the implicit morphosyntactic, semantic and domain-specific information contained in it. This process, called corpus annotation, consists in encoding such information in a structured form to enable analysts (linguists, musicologists, scholars and the general public) to interrogate the corpus by performing sophisticated queries. In case of sources available as images or pdfs file, the NLP technologies employed to produce the annotations were applied to the version of the documents converted into a processable format by the custom piece of OCR software1 released within Deliverable 4.1.</p>
+		<div class="module-info-title module-info-title-first"  value="module-info-box-1">Annotation Pipeline</div>
+		<div class="module-info-box">
+<p>The annotations of the corpus was produced using cutting-edge Natural Language Processing technologies.
+We annotated each text of the corpus with a NLP pipeline composed of:</p>
+<ol>
+<li>Sentece splitting</li>
+<li>Tokenization</li>
+<li>Lemmatization</li>
+<li>Part-of-speech tagging</li>
+<li>Word Sense Disambiguation</li>
+<li>Named Entity Recognition</li>
+<li>Entity Linking</li>
+</ol>
+<p>Steps 1-4 and 6 have been conducted using the <strong><a href="http://spacy.io">SpaCy</a></strong> NLP library.
+For each language of the corpus we used a dedicated SpaCy Model:</p>
+<table>
+<thead>
+<tr>
+<th>lang</th>
+<th>model name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DE</td>
+<td>de_core_news_lg</td>
+</tr>
+<tr>
+<td>EN</td>
+<td>en_core_web_trf</td>
+</tr>
+<tr>
+<td>ES</td>
+<td>es_core_news_lg</td>
+</tr>
+<tr>
+<td>FR</td>
+<td>fr_core_news_lg</td>
+</tr>
+<tr>
+<td>IT</td>
+<td>it_core_news_lg</td>
+</tr>
+<tr>
+<td>NL</td>
+<td>nl_core_news_lg</td>
+</tr>
+</tbody>
+</table>
+<p>Steps 5 and 7 require more sophisticated technologies.
+For this reason, we used <strong><a href="https://github.com/SapienzaNLP/ewiser">EWISER</a></strong> for step 5 (Word Sense Disambiguation) for English.
+The other languages of the corpus have been annotated using a new system developed within the project.
+It exploits recent advantages on lexical semantics and in particular on the representation of word senses (<strong><a href="http://sensembert.org/">ARES</a></strong>) and a powerful WSD model (<strong><a href="https://github.com/roccotrip/wsd_games_emb">WSD-games</a></strong>).
+The advantages of this new model are based on the fact that it is accurate, fast and can work efficiantly on different languages.
+For step 7 we used <strong><a href="https://github.com/SapienzaNLP/extend">ExTenD</a></strong> for English.
+For the other language of the corpus we adapted <strong><a href="https://github.com/roccotrip/wsd_games_emb">WSD-games</a></strong> to work on the entity linking task.
+Also in this case the model is accurate, fast and can work efficiantly on different languages.</p></div>
+		<div class="module-info-title module-info-title-last"  value="module-info-box-1">Annotation Example</div>
+		<div class="module-info-box module-info-box-last-2" id="module-info-box-1"><p>The annotations of the Polifonia Textual Corpus are provided in <strong><a href="https://universaldependencies.org/format.html">CoNLL-U format</a></strong>.
+Given an input sentence (from the English Wikipedia module) such as:</p>
+<blockquote>
+<p>James H. Mathis Jr. (born August 1967), known as Jimbo Mathus, is an American singer-songwriter and guitarist, best known for his work with the swing revival band Squirrel Nut Zippers.</p>
+</blockquote>
+<p>the resulting annotation will start with metadata information:</p>
+<blockquote>
+<p>#polifonia_doc_id = 32607842_bn___02615097n.html</p>
+</blockquote>
+<p>Tha provides an unique identifier for the document and in this case is composed of two identifiers: the first one is the BabelNet id of the corresponding Wikipedia page (32607842_bn), the second part is the Wikipedia identifier of the page (02615097n).</p>
+<blockquote>
+<p>#polifonia_sent_id = sent_0</p>
+</blockquote>
+<p>Then there is a progressive number for each sentence the document.</p>
+<blockquote>
+<p>#sent = James H. Mathis Jr. (born August 1967), known as Jimbo Mathus, is an American singer-songwriter and guitarist, best known for his work with the swing revival band Squirrel Nut Zippers. </p>
+</blockquote>
+<p>And then there is the text of the sentence.</p>
+<p>Afther the metadata there is the sentence annotation: </p>
+<table>
+<thead>
+<tr>
+<th>token_id</th>
+<th>word form</th>
+<th>lemma</th>
+<th>POS</th>
+<th>WordNet sense</th>
+<th>NER class</th>
+<th>NER BIO tag</th>
+<th>Entity Linking -------</th>
+<th>is a musical concept?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>token_0</td>
+<td>James</td>
+<td>James</td>
+<td>PROPN</td>
+<td></td>
+<td>PERSON</td>
+<td>B</td>
+<td>James H. Mathis Jr.</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_1</td>
+<td>H.</td>
+<td>H.</td>
+<td>PROPN</td>
+<td></td>
+<td>PERSON</td>
+<td>I</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_2</td>
+<td>Mathis</td>
+<td>Mathis</td>
+<td>PROPN</td>
+<td></td>
+<td>PERSON</td>
+<td>I</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_3</td>
+<td>Jr.</td>
+<td>Jr.</td>
+<td>PROPN</td>
+<td></td>
+<td>PERSON</td>
+<td>I</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_4</td>
+<td>(</td>
+<td>(</td>
+<td>PUNCT</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_5</td>
+<td>born</td>
+<td>bear</td>
+<td>VERB</td>
+<td>wn:02518161v</td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_6</td>
+<td>August</td>
+<td>August</td>
+<td>PROPN</td>
+<td></td>
+<td>DATE</td>
+<td>B</td>
+<td>August 1967</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_7</td>
+<td>1967</td>
+<td>1967</td>
+<td>NUM</td>
+<td></td>
+<td>DATE</td>
+<td>I</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td>token_8</td>
+<td>)</td>
+<td>)</td>
+<td>PUNCT</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_9</td>
+<td>,</td>
+<td>,</td>
+<td>PUNCT</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_10</td>
+<td>known</td>
+<td>know</td>
+<td>VERB</td>
+<td>wn:01426397v</td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_11</td>
+<td>as</td>
+<td>as</td>
+<td>ADP</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_12</td>
+<td>Jimbo</td>
+<td>Jimbo</td>
+<td>PROPN</td>
+<td></td>
+<td>PERSON</td>
+<td>B</td>
+<td>Jimbo Mathus</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_13</td>
+<td>Mathus</td>
+<td>Mathus</td>
+<td>PROPN</td>
+<td></td>
+<td>PERSON</td>
+<td>I</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_14</td>
+<td>,</td>
+<td>,</td>
+<td>PUNCT</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_15</td>
+<td>is</td>
+<td>be</td>
+<td>AUX</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_16</td>
+<td>an</td>
+<td>an</td>
+<td>DET</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_17</td>
+<td>American</td>
+<td>american</td>
+<td>ADJ</td>
+<td>wn:02927512a</td>
+<td>NORP</td>
+<td>B</td>
+<td>United States</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_18</td>
+<td>singer</td>
+<td>singer</td>
+<td>NOUN</td>
+<td>wn:10599806n</td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>token_19</td>
+<td>-</td>
+<td>-</td>
+<td>PUNCT</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_20</td>
+<td>songwriter</td>
+<td>songwriter</td>
+<td>NOUN</td>
+<td>wn:10624540n</td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>token_21</td>
+<td>and</td>
+<td>and</td>
+<td>CCONJ</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_22</td>
+<td>guitarist</td>
+<td>guitarist</td>
+<td>NOUN</td>
+<td>wn:10151760n</td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>token_23</td>
+<td>,</td>
+<td>,</td>
+<td>PUNCT</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_24</td>
+<td>best</td>
+<td>well</td>
+<td>ADV</td>
+<td>wn:00011093r</td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_25</td>
+<td>known</td>
+<td>know</td>
+<td>VERB</td>
+<td>wn:00596644v</td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_26</td>
+<td>for</td>
+<td>for</td>
+<td>ADP</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_27</td>
+<td>his</td>
+<td>his</td>
+<td>PRON</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_28</td>
+<td>work</td>
+<td>work</td>
+<td>NOUN</td>
+<td>wn:05755883n</td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_29</td>
+<td>with</td>
+<td>with</td>
+<td>ADP</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_30</td>
+<td>the</td>
+<td>the</td>
+<td>DET</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_31</td>
+<td>swing</td>
+<td>swing</td>
+<td>NOUN</td>
+<td>wn:07066042n</td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>token_32</td>
+<td>revival</td>
+<td>revival</td>
+<td>NOUN</td>
+<td>wn:01047338n</td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_33</td>
+<td>band</td>
+<td>band</td>
+<td>NOUN</td>
+<td>wn:08240169n</td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>token_34</td>
+<td>Squirrel</td>
+<td>Squirrel</td>
+<td>PROPN</td>
+<td></td>
+<td>ORG</td>
+<td>B</td>
+<td>Squirrel Nut Zippers</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_35</td>
+<td>Nut</td>
+<td>Nut</td>
+<td>PROPN</td>
+<td></td>
+<td>ORG</td>
+<td>I</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_36</td>
+<td>Zippers</td>
+<td>Zippers</td>
+<td>PROPN</td>
+<td></td>
+<td>ORG</td>
+<td>I</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>token_37</td>
+<td>.</td>
+<td>.</td>
+<td>PUNCT</td>
+<td></td>
+<td></td>
+<td>O</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+		<p class="about-sub-title"><span class="highlight">Issues</span> <br></p>
+		<p>Have you found any issues or bugs while using the Polifonia Corpus application?
+		<br>Please, use the following Github link and let us know. It will allow you to submit a new issue to the Polifonia Corpus repository. Github registration is required.
+		</p><p>Your contribution is greatly appreciated. </p>
+		<a class="report-issue-button" target=”_blank” href="https://github.com/polifonia-project/Polifonia-Corpus/issues/new">REPORT ISSUE</a>
+
+
+	</div>
+</div>
+<div class="infobox" id="infobox_guide">
+	<div class="general-title"><p class="infobox-title">Let us <span class="highlight">Guide</span>  you through <br>the interrogation of the corpus.</p></div>
+	<div class="guide-content">
+		<p class="guide-content-p">The interactive dashboard of this application website has been created to allow easy access to the Polifonia Corpus, with the employment of a user-friendly design that reminds of a music player. Different parameters have been implemented to select, navigate and store sentences of the corpus that satisfy a specific query. A default set of parameters has been established to allow a first round of interrogations. However, it is possible to rearrange parameters according to the user needs. In particular, four different types of interrogations (2) have been implemented, to determine peculiar linguistic investigations of the corpus.<p>
+	    <p class="about-sub-title"><span class="highlight">Dashboard</span> <br></p>
+	    <p>The parameters are explained below and their use is described in the following sections:</p>
+		<div class="guide-section guide-section-first">
+			<img class="guide-image" src="static/svg/guide-1.svg">
+			<p class="guide-description"><span class="guide-description-title">1. Query input</span><br><br> In this input form you can digit the word to be used for the interrogation, e.g., guitar. The input comes also with autocompletion, populated by words coming from the Polifonia Lexicon.The user can either select one the suggested words or write their own. Pressing the return key after a word runs the interrogation. </p>
+			</div>
+		<div class="guide-section">
+			<img class="guide-image" src="static/svg/guide-2.svg">
+			<p class="guide-description"><span class="guide-description-title">2. Type select</span><br><br>
+
+It allows for selection of interrogation type. It indicates the type of interrogation that has to be
+conducted over the inputted query word.<br><br>
+
+The <span class="guide-underline">keyword search</span> can be used to select the sentences in the corpus that contain that specific
+keyword. The matching between the keyword and the results is literal.<br><br>
+
+The <span class="guide-underline">lemma search</span> can be used to select the sentences in the corpus that contain variations of the
+input canonical form or lemma.<br><br>
+
+The <span class="guide-underline">concept search</span> is similar to the keyword search but instead of searching the corpus using
+keywords it uses concepts (the specific sense of a word), exploiting the sense annotation
+of the corpus. Before seeing results, the user has to choose one of the available word senses
+of the inputted word.<br><br>
+
+The <span class="guide-underline">entity search</span>  is similar to the concept search but instead of searching the corpus using
+word senses it uses named entities (as specified in a knowledge base, Wikipedia in our case),
+exploiting the sense annotation of the corpus.</p></div>
+		<div class="guide-section">
+			<img class="guide-image" src="static/svg/guide-3.svg">
+			<p class="guide-description"><span class="guide-description-title">3. Module select</span><br><br>
+
+It allows for selection of corpus module. It ndicates what module of the corpus has to be queried.
+It can be Wikipedia, Books, Periodicals or Pilots. Pilots include: MusicBo, Child, Meetups, Bells
+and Organs. The query will be then conducted on the set of texts inside the module.<br><br>
+
+Each time a module is selected, general statistics in the upper section the web page are updated,
+displaying the total number of entries for the specific module.</div>
+		<div class="guide-section">
+			<img class="guide-image" src="static/svg/guide-4.svg">
+			<p class="guide-description"><span class="guide-description-title">4. Language select</span><br><br>
+
+It allows for selection of module’s language. Each module, except the Pilots, contains documents
+in six languages: Dutch (NL), English (EN), French (FR), German (DE),Italian (IT) and Spanish (ES).</div>
+		<div class="guide-section">
+			<img class="guide-image" src="static/svg/guide-5.svg">
+			<p class="guide-description"><span class="guide-description-title">5. Number of lines</span><br><br>
+
+It indicates the number of sentences to get at each interrogation.
+Each line is represented by a sentence. </div>
+		<div class="guide-section">
+			<img class="guide-image" src="static/svg/guide-6.svg">
+			<p class="guide-description"><span class="guide-description-title">6. Control panel</span><br><br>
+
+The control panel is made of three buttons. The first one (Reset) allows for resetting of the
+interrogation parameters, replacing the values with default ones. The second button (Run)
+allows for launching the interrogation with the selected parameters. The last button (View)
+shows the number of selected sentences, on the right, and allows for restricted view of sentences.
+When active, the view is restricted to the selected sentences </div>
+		<div class="guide-section guide-section-last">
+			<img class="guide-image" src="static/svg/guide-7.svg">
+			<p class="guide-description"><span class="guide-description-title">7. Download option</span><br><br>
+
+This button allows for downloading the results of the interrogation. The user can download a
+selection of senteces or the totality of sentences included in the results. Once selected the number
+of sentences to be downloaded, it allows for specifing the output file format: sentences can be stored
+in textual files, which will just include the full text of the sentences; csv files, which include sentences
+and related metadata; csv files, that reproduce the KWIC structure of the web interface.    </div>
+		<p class="about-sub-title"><span class="highlight">Results</span> <br></p>
+		<p>Results are visualized in an interactive container and are organized according to the parameters explained below.<br> Their use is described in the following map and legend. </p>
+		<p><br><span style="color:red;"><b>•</b></span> Visual elements.<br><span style="color:blue;"><b>•</b></span> Clickable elements. </p>
+		<div class=" guide-section-map">
+			<img class="guide-image-map" src="static/svg/guide-map.jpg">
+		</div>
+		<div class="map-legend">
+		<p class="red-item"><span class="legend-item legend-item-red">A</span> <u>Selection panel</u>: it shows the total number of association between the query word and the entities or concepts</p>
+		<p class="red-item"><span class="legend-item legend-item-red">B</span> <u>Lexicon bookmark</u>: it indicates the synsets extracted from the Polifonia Lexicon</p>
+		<p><span class="legend-item legend-item-blue">C</span> <u>Selected option</u>: allows for selection of specific named entities or concept </p>
+		<p class="red-item"><span class="legend-item legend-item-red">D</span> <u>Results panel</u>: it shows the total number of results associated with the query </p>
+		<p class="red-item"><span class="legend-item legend-item-red">E</span> <u>Row number</u>: it shows the identification number of result, according to the row number</p>
+		<p><span class="legend-item legend-item-blue">F</span> <u>Sentence's source</u>: if clicked it allows for a better displaying of the source info and bibliographic record</p>
+		<p class="red-item"><span class="legend-item legend-item-red">G</span> <u>Left context</u>: text content proceeding the concordance line keyword</p>
+		<p><span class="legend-item legend-item-blue">H</span> <u>Concordance keyword</u>: Key Word In Context (KWIC)</p>
+		<p class="red-item"><span class="legend-item legend-item-red">I</span> <u>Right context</u>: text content following the concordance line keyword</p>
+		<p><span class="legend-item legend-item-blue">L</span> <u>Select all checkbox</u>: if clicked it allows for selection of all lines</p>
+		<p><span class="legend-item legend-item-blue">M</span> <u>Select sentence checbox</u>: if clicked it allows for selection of single line</p>
+		<p><span class="legend-item legend-item-blue">N</span> <u>Show more button</u>: if clicked it allows for displaying of 20 + results </p>
+		</div>
+		<br>
+			</div>
+</div>
+<div class="sticky_div" id="sticky_div">
+	<div class="breaker"></div>
+	<div id="control_panel" class="control_panel">
+<form id="myForm" autocomplete="off" action="/action_page.php">
+	<span class="form_entrance entrance_lemma">
+  		<label class="tooltip-key" for="lemma" id="lemmaKey">Query</label>
+		<span class="tooltip-text">Digit a word</span>
+  		<input type="search" id="lemma" name="lemma" value="music">
+	</span>
+	<span class="form_entrance entrance_type">
+  		<label class="tooltip-key" for="type">Type</label>
+		<span class="tooltip-text">Define query word typology</span>
+  		<select id="type" name="type" onclick="dropDownType()" >
+  			<option value="keyword">Keyword</option>
+			<option value="lemma">Lemma</option>
+			<option value="concept">Concept</option>
+			<option value="entity">Entity</option>
+  		</select>
+		<div id="type_dropdown">
+			<button type="button" id="option_type-lemma" class="option_type"  value="lemma" onclick="changeType(this.value)">Lemma</button>
+			<button type="button" id="option_type-keyword" class="option_type"  value="keyword" onclick="changeType(this.value)" >Keyword</button>
+			<button type="button" id="option_type-concept" class="option_type"  value="concept" onclick="changeType(this.value)" >Concept</button>
+			<button type="button" id="option_type-entity" class="option_type"  value="entity" onclick="changeType(this.value)" >Entity</button>
+		</div>
+	</span>
+	<span class="form_entrance">
+  		<label class="tooltip-key" for="module">Module</label>
+		<span class="tooltip-text">Select a section of corpus</span>
+  		<select id="module" name="module" onclick="dropDownModule()">
+  			<option value="Books">Books</option>
+			<option value="Periodicals">Periodicals</option>
+			<option value="Wikipedia">Wikipedia</option>
+			<option value="Pilots-Musicbo">MusicBo</option>
+			<option value="Pilots-Child">Child</option>
+			<option value="Pilots-Meetups">Meetups</option>
+			<option value="Pilots-Bells">Bells</option>
+			<option value="Pilots-Organs">Organs</option>
+  		</select>
+		<div id="module_dropdown">
+			<button type="button" id="option_module-Periodicals" class="option_module option_module_other"  value="Periodicals" onclick="changeModule(this.value)">Periodicals</button>
+			<button type="button" id="option_module-Books"       class="option_module option_module_other"  value="Books" onclick="changeModule(this.value)">Books</button>
+			<button type="button" id="option_module-Wikipedia"   class="option_module option_module_other"  value="Wikipedia" onclick="changeModule(this.value)">Wikipedia</button>
+			<button type="button" id="Pilots-dropdown"       class="option_module option_module_other option_module_pilots"  value="" onclick="pilotsDropdown()">Pilots</button>
+			<button type="button" id="Pilots-back"       class="option_module option_module_pilot option_module_back"  value="" onclick="pilotsBack()">&nbsp;</button>
+			<button type="button" id="option_module-Pilots-Musicbo" class="option_module option_module_pilot"  value="Pilots-Musicbo" onclick="changeModule(this.value)">MusicBo</button>
+			<button type="button" id="option_module-Pilots-Child" class="option_module option_module_pilot"  value="Pilots-Child" onclick="changeModule(this.value)">Child</button>
+			<button type="button" id="option_module-Pilots-Meetups" class="option_module option_module_pilot"  value="Pilots-Meetups" onclick="changeModule(this.value)">Meetups</button>
+			<button type="button" id="option_module-Pilots-Bells" class="option_module option_module_pilot"  value="Pilots-Bells" onclick="changeModule(this.value)">Bells</button>
+			<button type="button" id="option_module-Pilots-Organs" class="option_module option_module_pilot"  value="Pilots-Organs" onclick="changeModule(this.value)">Organs</button>
+
+		</div>
+	</span>
+	<span class="form_entrance entrance_lang">
+  		<label class="tooltip-key" for="lang">Language</label>
+		<span class="tooltip-text">Choose module language</span>
+		<select id="lang" name="lang" onclick="dropDownLang()">
+  			<option value="EN">English</option>
+  			<option value="IT">Italian</option>
+  			<option value="DE">German</option>
+  			<option value="FR">French</option>
+  			<option value="ES">Spanish</option>
+  			<option value="NL">Dutch</option>
+ 		</select>
+		<div id="lang_dropdown">
+			<button type="button" id="option_lang-EN" class="option_lang"  value="EN" onclick="changeLang(this.value)">English</button>
+			<button type="button" id="option_lang-IT" class="option_lang"  value="IT" onclick="changeLang(this.value)">Italian</button>
+			<button type="button" id="option_lang-DE" class="option_lang"  value="DE" onclick="changeLang(this.value)">German</button>
+			<button type="button" id="option_lang-FR" class="option_lang"  value="FR" onclick="changeLang(this.value)">French</button>
+			<button type="button" id="option_lang-ES" class="option_lang"  value="ES" onclick="changeLang(this.value)">Spanish</button>
+			<button type="button" id="option_lang-NL" class="option_lang"  value="NL" onclick="changeLang(this.value)">Dutch</button>
+		</div>
+	</span>
+
+	<span class="form_entrance entrance_number">
+  		<label for="number">N. Lines</label>
+		<span class='number-wrapper'>
+			<button type="button" class="number-minus" id="number-minus" onclick="removeOne()">-</button>
+ 	 	<input type="number" id="number" name="numb" value="100">
+			<button type="button" class="number-plus" id="number-plus" onclick="addOne()">+</button>
+		</span>
+  	</span>
+		<span class="activity_button entrance_reset">
+		<label id="reset_label" class="reset_label" for="reset">Reset</label>
+		<input type="reset" id="reset" onclick="myReset()" value="" disabled>
+	</span>
+	<span class="entrance_button">
+		<label for="calculate">Run</label>
+  		<input id="calculate" type="button" value="">
+	</span>
+		<span id="entrance_view" class="activity_button entrance_view">
+		<label id="view_label" class="view_label " for="view_button">View</label>
+		<input id="view_button" type="button" value="" onclick="my_view()" disabled>
+	</span>
+	<span class="activity_button entrance_download">
+		<label id="download_label" class="download_label" for="download_button">Download</label>
+		<input id="download_button" type="button" onclick="dropDown()" disabled>
+		<div id="download_dropdown">
+			<button type="button" id="all-download-main" class="download_option" onclick="showOptionsAll()">Save All</button>
+			<div id="download_dropdown-1">
+			<button type="button" id="all_download-1" class="download_option" onclick="download_text()">Save All (text)</button>
+				<button type="button" id="all_download-2" class="download_option" onclick="download_csv()">Save All (csv)</button>
+			</div>
+			<button type="button" id="selected-download-main" class="download_option" onclick="showOptionsSel()">Save Selected</button>
+			<div id="download_dropdown-2">
+				<button type="button" id="selected_download-1" class="download_option" onclick="download_selected_txt()">Selected (text)</button>
+				<button type="button" id="selected_download-2" class="download_option" onclick="download_selected()">Selected (csv)</button>
+			</div>
+		</div>
+	</span>
+
+</form>
+</div>
+	<br>
+	<div id="output_control" class="output_control">
+	<div id='stats' class='stats_box'></div>
+	<div id='select' class="select_box"></div>
+</div>
+	<div class="top-spacer">
+	<div class="spacer">
+		<div class="result_tab n_tab">N.</div>
+		<div class="result_tab id_tab">Source</div>
+		<div class=" result_tab left_tab">Left context</div>
+		<div class="result_tab kwic_tab">KWIC</div>
+		<div class="result_tab right_tab">Right context</div>
+		<div class="checker_box_all">
+			<input type="checkbox" id="select_all" name="checkbox_all" class="select_all" value="" onchange="doCheckAll(this)" disabled>
+			<label for="select_all"></label>
+		</div>
+	</div>
+		</div>
+</div>
+<div id='result' class="result_box">
+		<p class="welcome-text">Please insert a <b>lemma</b> in the query input  box <br>Click on the <b>Run</b> button to start the query and interrogate the Polifonia Corpus</p>
+	</div>
+<div id="bottom-spacer" class="bottom-spacer"><input id="more_button" type="button" value="More +" disabled></div>
+</body>
+</html>
+
+
+
