@@ -130,6 +130,7 @@
             document.getElementById("select_all").disabled = false;
             source_click();
             sent_click();
+            report_click()
             close_full_sent_click();
             close_source_click();
             // document.getElementById("stats").innerHTML = "<div id='' class='stats_row'>"+ stats +"</div>";
@@ -165,6 +166,7 @@
         currentCount = checked_rows.length;
         source_click();
         sent_click();
+        report_click()
         close_full_sent_click();
         close_source_click();
         for (let i = 0; i < currentCount; i++) {
@@ -313,6 +315,14 @@ function sent_click() {
     });
 };
 
+function report_click() {
+  $('#report_button').bind('click', function() {
+    $("#bottom-spacer").append("<div id='report_box'><div class='close_report' id='close_report'></div><p><b>Report</b><br><br></p></div>");
+    $('#report_box').slideDown();
+    close_report_click();
+    });
+};
+
 function close_full_sent_click() {
     $('.close_full_sent').bind('click', function() {
          $(".full_sent").slideUp();
@@ -323,6 +333,12 @@ function close_source_click() {
     $('.close_source').bind('click', function() {
          $(".sent_source").slideUp();
     });
+};
+
+function close_report_click() {
+  $('.close_report').bind('click', function() {
+       $("#report_box").slideUp();
+  });
 };
 
 function concept_click() {
@@ -371,6 +387,7 @@ function concept_click() {
           document.getElementById("select_all").disabled = false;
           source_click();
           sent_click();
+          report_click()
           close_full_sent_click();
           close_source_click();
       });
@@ -432,6 +449,7 @@ function entity_click() {
           document.getElementById("select_all").disabled = false;
           source_click();
           sent_click();
+          report_click()
           close_full_sent_click();
           close_source_click();
       });
