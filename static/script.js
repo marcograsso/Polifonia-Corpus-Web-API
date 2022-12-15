@@ -95,6 +95,7 @@
             $("#stats").html(stat_rows);
             $("#result").html("");
             document.getElementById("more_button").disabled = true;
+            document.getElementById("report_button").disabled = true;
             document.getElementById("download_button").disabled = true;
             document.getElementById("download_label").classList.remove("download_label-active");
                 document.getElementById("download_dropdown").style.display="none";
@@ -110,6 +111,7 @@
             $("#stats").html(stat_rows);
             $("#result").html("");
             document.getElementById("more_button").disabled = true;
+            document.getElementById("report_button").disabled = true;
             document.getElementById("download_button").disabled = true;
             document.getElementById("download_label").classList.remove("download_label-active");
                 document.getElementById("download_dropdown").style.display="none";
@@ -125,6 +127,7 @@
             $("#stats").html(stat_rows);
             $("#select_all").show();
             document.getElementById("more_button").disabled = false;
+            document.getElementById("report_button").disabled = false;
             document.getElementById("download_button").disabled = false;
             document.getElementById("download_label").classList.add("download_label-active");
             document.getElementById("select_all").disabled = false;
@@ -250,6 +253,7 @@
     checked_rows.length = 0;
     document.getElementById("selected-download-main").innerHTML = "Save Selected (0)";
     document.getElementById("more_button").disabled = true;
+    document.getElementById("report_button").disabled = true;
     document.getElementById("view_button").disabled = true;
     document.getElementById("download_button").disabled = true;
     document.getElementById("download_label").classList.remove("download_label-active");
@@ -382,6 +386,7 @@ function concept_click() {
           $("#result").html(text_rows);
           $(".stats_row").html("The concept has been found in <b>" + stats +"</b> sentences. The research is based on the concept defined as: ");
           document.getElementById("more_button").disabled = false;
+          document.getElementById("report_button").disabled = false;
           document.getElementById("download_button").disabled = false;
           document.getElementById("download_label").classList.add("download_label-active");
           document.getElementById("select_all").disabled = false;
@@ -444,6 +449,7 @@ function entity_click() {
           $("#result").html(text_rows);
           $(".stats_row").html("The entity has been found in <b>" + stats +"</b> sentences. The research is based on the entity defined as: ");
           document.getElementById("more_button").disabled = false;
+          document.getElementById("report_button").disabled = false;
           document.getElementById("download_button").disabled = false;
           document.getElementById("download_label").classList.add("download_label-active");
           document.getElementById("select_all").disabled = false;
@@ -520,6 +526,7 @@ function my_view(){
         [].forEach.call(document.querySelectorAll('.sent_row'), function (el) {el.style.display = 'none';});
         document.getElementById("view_button").classList.add('view_button-active');
         document.getElementById("more_button").disabled = true;
+        document.getElementById("report_button").disabled = true;
         document.getElementById("select_all").disabled = true;
         var last_selected = $('.selected_row:visible:last');
         last_selected.after( "<div class='view_divisor' style='border-top:0.5px solid black;'></div>" );
@@ -528,6 +535,7 @@ function my_view(){
         [].forEach.call(document.querySelectorAll('.sent_row'), function (el) {el.style.display = 'block';});
         document.getElementById("view_button").classList.remove('view_button-active');
         document.getElementById("more_button").disabled = false;
+        document.getElementById("report_button").disabled = false;
         document.getElementById("select_all").disabled = false;
         $('.view_divisor').remove();
         view_count = 1;
@@ -907,15 +915,11 @@ $(".count").each(function () {
 window.onscroll = function() {scrollFunction()};
 function scrollFunction() {
   if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-    document.getElementById("header-logo").className = "header-logo-small";
-    document.getElementById("header-button").className = "header-button-small";
-    document.getElementById("about-button").className = "about-button-small";
-    document.getElementById("header-menu").className = "header-menu-small";
+    document.getElementById("header-logo").classList.add("header-logo-small");
+    document.getElementById("header").classList.add("header-small");
   } else {
-    document.getElementById("header-logo").className = "header-logo";
-    document.getElementById("header-button").className = "header-button";
-    document.getElementById("about-button").className = "about-button";
-    document.getElementById("header-menu").className = "header-menu";
+    document.getElementById("header-logo").classList.remove("header-logo-small");
+    document.getElementById("header").classList.remove("header-small");
   }
 }
 

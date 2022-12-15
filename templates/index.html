@@ -13,11 +13,8 @@
 <body>
 <div class="header" id="header">
 	<img class="header-logo" id="header-logo" onclick="openMain()" src="static/svg/Polifonia-logo-Corpus.svg">
-	<span id="header-menu" class="header-menu">
-		<p class="about-button" id="about-button" onclick="openAbout()">ABOUT</p>
-		<p class="header-button" id="header-button" onclick="openGuide()">GUIDE</p>
-	</span>
-	<div class="separator" id="separator"></div>
+	<p class="about-button" id="about-button" onclick="openAbout()">ABOUT</p>
+	<p class="header-button" id="header-button" onclick="openGuide()">GUIDE</p>
 </div>
 <div class="infobox" id="infobox">
 	<div class="general-title">
@@ -1311,7 +1308,7 @@ and related metadata; csv files, that reproduce the KWIC structure of the web in
 		<p class="welcome-text">Please insert a <b>lemma</b> in the query input  box <br>Click on the <b>Run</b> button to start the query and interrogate the Polifonia Corpus</p>
 	</div>
 <div id="bottom-spacer" class="bottom-spacer">
-	<input id="report_button" type="button" value="Report Error">
+	<input id="report_button" type="button" value="Report Error" disabled>
 	<input id="more_button" type="button" value="More +" disabled>
 </div>
 </body>
