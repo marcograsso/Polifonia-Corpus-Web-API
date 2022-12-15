@@ -1981,6 +1981,19 @@ border: 0.5px solid #4878f8;
       cursor: not-allowed;
   }
 
+.error_type {
+  border: 1px solid #f4edec;
+  border-radius: 18px;
+  padding:5px 10px 5px 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.error_type_active {
+  background-color:#f4edec ;
+  color: red;
+}
+
 .spacer {
 display: flex;
 padding: 10px;
@@ -2332,14 +2345,13 @@ height: 10vh;
 #report_box {
   display: none;
   width: 50%;
-  max-height: 20vh;
+  max-height: 40vh;
   margin-left: 22%;
   margin-right: 22%;
   overflow: scroll;
-  z-index: 30;
+  z-index: 60;
   background-color: red;
   color:#f4edec;
-  cursor: pointer;
   outline: 2px solid transparent;
   box-shadow: 1px 1px 16px -5px red;
   position: fixed;
@@ -2353,14 +2365,48 @@ height: 10vh;
     font-family: "HelveticaLt";
     letter-spacing: 0.03em;
     line-height: 1.2em;
-    margin: 20px;
     text-align: left;
     font-size: 0.9em;
+    margin: 20px 10px 10px 20px;
     }
     
     #report_box p b{
     font-family: "HelveticaMd";
     }
+
+#error_report_button {
+  font-family: "HelveticaLt";
+  letter-spacing: 0.03em;
+  line-height: 1.2em;
+  text-align: center;
+  font-size: 0.9em;
+  background-color: #f4edec;
+  color:red;
+  float: right;
+  border: 1px solid #f4edec;
+  cursor: pointer;
+  padding: 5px 10px 5px 10px;
+  border-radius: 4px;
+  margin-right: 50px;
+  margin-top: 20px;
+  background-image: url(svg/report-icon-active.svg);
+  background-repeat: no-repeat, repeat;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 1.5em auto, 100%;
+  padding-right: 40px;
+  display: inline-block;
+  
+}
+
+#error_report_button:hover {
+  box-shadow: 1px 1px 20px -5px white;
+}
+
+.report_error_message {
+  font-size: 0.7em !important; 
+  width: 60%;
+  display: inline-block;
+}
 
 .sent_source {
 display: none;
@@ -2456,6 +2502,7 @@ font-family: "HelveticaMd";
     height: 20px;
     width: 20px;
     background-image: url('svg/close-arrow-white.svg') !important;
+    cursor: pointer;
    }
 
 .output_control {

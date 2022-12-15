@@ -38,6 +38,10 @@
       };
       document.getElementById("reset_label").classList.add("reset_label-active");
       document.getElementById("selected-download-main").innerHTML = "Save Selected (0)";
+      if (document.getElementById("errors_count")) {
+        document.getElementById("errors_count").innerHTML = "0";
+      }; 
+      
       $("#select_all").prop('checked', false);
 
       currentLemma = $('input[name="lemma"]').val();
@@ -252,6 +256,7 @@
     more_button_clicks = 0;
     checked_rows.length = 0;
     document.getElementById("selected-download-main").innerHTML = "Save Selected (0)";
+    document.getElementById("errors_count").innerHTML = "0";
     document.getElementById("more_button").disabled = true;
     document.getElementById("report_button").disabled = true;
     document.getElementById("view_button").disabled = true;
@@ -321,10 +326,45 @@ function sent_click() {
 
 function report_click() {
   $('#report_button').bind('click', function() {
-    $("#bottom-spacer").append("<div id='report_box'><div class='close_report' id='close_report'></div><p><b>Report</b><br><br></p></div>");
+    var report_text = "<p><b>Report</b></p><p>Please select the type of error you would like to report:</p><p><span class='error_type'>Linguistic</span><span class='error_type'>Visualisation</span><span class='error_type'>Mismatch</span><span class='error_type'>Source</span><span class='error_type'>Typo</span><span class='error_type'>Full sentence</span></p><p><br>Please select all the sentences in which this error occurs using the checkbox at the right end of each result. Make sure all the selected results share the same error or send different reports for each error.</p><p> You have selected <b><span id='errors_count'>0<span></b> sentences</p> <p class='report_error_message'>You can also send us report notifications about general issues of the Polifonia Corpus application in the about section of the page.</p> <button id='error_report_button'>Send report</button>";
+    var report_div = "<div id='report_box'><div class='close_report' id='close_report'></div> "+ report_text +"</div>";
+    $("#bottom-spacer").append(report_div);
     $('#report_box').slideDown();
     close_report_click();
+    select_error_type();
     });
+};
+
+function send_report() {
+  $('#error_report_button').bind('click', function() {
+  var error_type = $('.error_type_active')[0].innerText + " error";
+  var final_csv = "";
+  var error_message = error_type + " in query: " + currentLemma + ", "+ currentType + ", "+ currentModule + ", " +  currentLang;
+  var currentCount = checked_rows.length;
+    for (let i = 0; i < currentCount; i++) {
+        select = checked_rows[i];
+        collection_number =  document.getElementById(select).getElementsByClassName("sent_pos")[0];
+        collection_ids = document.getElementById(select).getElementsByClassName("sent_id")[0];
+        collection_left = document.getElementById(select).getElementsByClassName("sent_left")[0];
+        collection_right = document.getElementById(select).getElementsByClassName("sent_right")[0];
+        collection_keys = document.getElementById(select).getElementsByClassName("sent_key")[0];
+        sentence = "sent_" + collection_number.textContent + "\t" + collection_ids.textContent.trim() + "\t" + collection_left.textContent.trim() + "\t" + collection_keys.textContent.trim() + "\t" + collection_right.textContent.trim() + "\n";
+        final_csv+= sentence;
+        };
+
+  console.log(error_message);
+  console.log(final_csv);
+  $("#report_box").slideUp();
+    });
+};
+
+function select_error_type() {
+  $('.error_type').bind('click', function() {
+    var error_type = event.target.innerText + " error";
+    $('.error_type').removeClass("error_type_active");
+    $(event.target).addClass("error_type_active");
+    send_report();
+  });
 };
 
 function close_full_sent_click() {
@@ -486,6 +526,7 @@ function doCheck(checkboxElem) {
      count = checked_rows.length
      document.getElementById("entrance_view").setAttribute('data-before', count.toString());
      document.getElementById("selected-download-main").innerHTML = "Save Selected ("+ count.toString()+")";
+     document.getElementById("errors_count").innerHTML = count.toString();
      document.getElementById("selected_download").innerHTML = "Selected ("+ count.toString() +")";
      if (checked_rows.length == currentNumb) {
      document.getElementById("view_button").disabled = true;
@@ -497,6 +538,7 @@ function doCheck(checkboxElem) {
      $("#select_all").prop('checked', false);
      count = checked_rows.length
      document.getElementById("selected-download-main").innerHTML = "Save Selected ("+ count.toString()+")";
+     document.getElementById("errors_count").innerHTML = count.toString();
      document.getElementById("entrance_view").setAttribute('data-before', count.toString());
      if (checked_rows.length < 1) {
         document.getElementById("view_button").disabled = true;
