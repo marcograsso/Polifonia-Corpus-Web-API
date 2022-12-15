@@ -351,10 +351,12 @@ function send_report() {
         sentence = "sent_" + collection_number.textContent + "\t" + collection_ids.textContent.trim() + "\t" + collection_left.textContent.trim() + "\t" + collection_keys.textContent.trim() + "\t" + collection_right.textContent.trim() + "\n";
         final_csv+= sentence;
         };
-
-  console.log(error_message);
-  console.log(final_csv);
-  $("#report_box").slideUp();
+  console.log(error_message, final_csv);
+  if (final_csv!= "") {
+    $("#report_box").html("<div class='close_report' id='close_report'></div> <p><b>Thanks for reporting.</b></p><p>The issue has been addressed successfully.<br>Your contribution is greatly appreciated.</p><button id='new_report_button' class='new_report_button'>New report</button>");
+  }
+  new_report_click();
+  close_report_click();
     });
 };
 
@@ -364,6 +366,16 @@ function select_error_type() {
     $('.error_type').removeClass("error_type_active");
     $(event.target).addClass("error_type_active");
     send_report();
+  });
+};
+
+function new_report_click() {
+  $('.new_report_button').bind('click', function() {
+       var report_text = "<p><b>Report</b></p><p>Please select the type of error you would like to report:</p><p><span class='error_type'>Linguistic</span><span class='error_type'>Visualisation</span><span class='error_type'>Mismatch</span><span class='error_type'>Source</span><span class='error_type'>Typo</span><span class='error_type'>Full sentence</span></p><p><br>Please select all the sentences in which this error occurs using the checkbox at the right end of each result. Make sure all the selected results share the same error or send different reports for each error.</p><p> You have selected <b><span id='errors_count'>"+ count.toString() + "<span></b> sentences</p> <p class='report_error_message'>You can also send us report notifications about general issues of the Polifonia Corpus application in the about section of the page.</p> <button id='error_report_button'>Send report</button>";
+       var report_div = "<div class='close_report' id='close_report'></div> "+ report_text;
+       $("#report_box").html(report_div);
+       close_report_click();
+       select_error_type();
   });
 };
 

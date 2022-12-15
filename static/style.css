@@ -2395,7 +2395,27 @@ height: 10vh;
   background-size: 1.5em auto, 100%;
   padding-right: 40px;
   display: inline-block;
-  
+}
+
+#new_report_button {
+  font-family: "HelveticaLt";
+  letter-spacing: 0.03em;
+  line-height: 1.2em;
+  text-align: center;
+  font-size: 0.9em;
+  background-color: #f4edec;
+  color:red;
+  border: 1px solid #f4edec;
+  cursor: pointer;
+  padding: 5px 10px 5px 10px;
+  border-radius: 4px;
+  margin-left: 20px;
+  margin-top: 20px;
+  display: inline-block;
+}
+
+#new_report_button:hover {
+  box-shadow: 1px 1px 20px -5px white;
 }
 
 #error_report_button:hover {
