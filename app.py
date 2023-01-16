@@ -1,8 +1,6 @@
 from flask import Flask, jsonify, render_template, request
 app = Flask(__name__)
 from interrogation.myinterrogate import *
-import annotations
-import interrogation
 
 
 @app.route('/search')
@@ -18,6 +16,11 @@ def add_numbers():
     results, stats = interrogate(path, corpus, lang, interrogation_type, query, sent_n, concept_id, entity_id)
     return jsonify(result=results, stat= stats)
 
+@app.route('/report')
+def report():
+    message = request.args.get('err', 0, type=str)
+    results = write_issue(message)
+    return jsonify(result=results)
 
 @app.route('/')
 def index():

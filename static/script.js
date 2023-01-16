@@ -256,7 +256,9 @@
     more_button_clicks = 0;
     checked_rows.length = 0;
     document.getElementById("selected-download-main").innerHTML = "Save Selected (0)";
-    document.getElementById("errors_count").innerHTML = "0";
+    if (document.getElementById("errors_count")) {
+      document.getElementById("errors_count").innerHTML = "0";  
+    }
     document.getElementById("more_button").disabled = true;
     document.getElementById("report_button").disabled = true;
     document.getElementById("view_button").disabled = true;
@@ -340,6 +342,16 @@ function send_report() {
   var error_type = $('.error_type_active')[0].innerText + " error";
   var final_csv = "";
   var error_message = error_type + " in query: " + currentLemma + ", "+ currentType + ", "+ currentModule + ", " +  currentLang;
+  if (currentType == "concept") {
+    ref_num = currentConcept - 1;
+    concept_num = " (" + ref_num + ")";
+    error_message = error_type + " in query: " + currentLemma +", "+ currentType + concept_num + ", "+ currentModule + ", " +  currentLang;
+  };
+  if (currentType == "entity") {
+    ref_num = currentEntity - 1;
+    entity_num = " (" + ref_num + ")";
+    error_message = error_type + " in query: " + currentLemma +", "+ currentType + entity_num + ", "+ currentModule + ", " +  currentLang;
+  };
   var currentCount = checked_rows.length;
     for (let i = 0; i < currentCount; i++) {
         select = checked_rows[i];
@@ -351,10 +363,19 @@ function send_report() {
         sentence = "sent_" + collection_number.textContent + "\t" + collection_ids.textContent.trim() + "\t" + collection_left.textContent.trim() + "\t" + collection_keys.textContent.trim() + "\t" + collection_right.textContent.trim() + "\n";
         final_csv+= sentence;
         };
-  console.log(error_message, final_csv);
+  var timeStamp = new Date($.now());
+  var report_message = timeStamp + "\n" + error_message + "\n" + final_csv
+
   if (final_csv!= "") {
+  currentReport = $.getJSON($SCRIPT_ROOT + '/report', {
+    err: report_message,
+  }, function(data) {
+
+  });
+
     $("#report_box").html("<div class='close_report' id='close_report'></div> <p><b>Thanks for reporting.</b></p><p>The issue has been addressed successfully.<br>Your contribution is greatly appreciated.</p><button id='new_report_button' class='new_report_button'>New report</button>");
   }
+
   new_report_click();
   close_report_click();
     });
@@ -538,7 +559,9 @@ function doCheck(checkboxElem) {
      count = checked_rows.length
      document.getElementById("entrance_view").setAttribute('data-before', count.toString());
      document.getElementById("selected-download-main").innerHTML = "Save Selected ("+ count.toString()+")";
-     document.getElementById("errors_count").innerHTML = count.toString();
+     if (document.getElementById("errors_count")) {
+      document.getElementById("errors_count").innerHTML = count.toString();
+    }; 
      document.getElementById("selected_download").innerHTML = "Selected ("+ count.toString() +")";
      if (checked_rows.length == currentNumb) {
      document.getElementById("view_button").disabled = true;
@@ -550,7 +573,9 @@ function doCheck(checkboxElem) {
      $("#select_all").prop('checked', false);
      count = checked_rows.length
      document.getElementById("selected-download-main").innerHTML = "Save Selected ("+ count.toString()+")";
-     document.getElementById("errors_count").innerHTML = count.toString();
+     if (document.getElementById("errors_count")) {
+      document.getElementById("errors_count").innerHTML = count.toString();
+    }; 
      document.getElementById("entrance_view").setAttribute('data-before', count.toString());
      if (checked_rows.length < 1) {
         document.getElementById("view_button").disabled = true;

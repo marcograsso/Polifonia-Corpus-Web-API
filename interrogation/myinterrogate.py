@@ -419,3 +419,11 @@ def interrogate(annotations_path, corpus, lang, interrogation_type, query, sent_
             Results = get_entity(lower_query, lang, entity_id)
             Stats = ""
     return Results, Stats
+
+
+#------------------------------------------------   Write issues to file-----------------------------------------------
+
+def write_issue(message):
+    with open("static/issues.txt", "a") as file_object:
+        file_object.write(message + "\n\n\n\n")
+    return "Report sent"

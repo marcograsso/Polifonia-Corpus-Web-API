@@ -1,0 +1,38 @@
+Mon Dec 19 2022 19:10:01 GMT+0100 (Ora standard dell’Europa centrale)
+Typo error in query: music, keyword, Books, EN
+sent_4	http://www.jstor.org/stable/738068	Piano	music	may be memorized in three ways: by ear, by visual memory, either of the
+sent_5	http://www.jstor.org/stable/738068	In memorizing	music	after this fashion, the additional mental action is involved of transferring the visual image
+sent_6	http://www.jstor.org/stable/738068	Students who possess any aptitude at all for the mental hearing of printed	music	should be urged to give part of their daily study to such sort of
+
+
+
+
+Mon Dec 19 2022 19:12:19 GMT+0100 (Ora standard dell’Europa centrale)
+Source error in query: music, keyword, Books, EN
+sent_4	http://www.jstor.org/stable/738068	Piano	music	may be memorized in three ways: by ear, by visual memory, either of the
+sent_5	http://www.jstor.org/stable/738068	In memorizing	music	after this fashion, the additional mental action is involved of transferring the visual image
+sent_6	http://www.jstor.org/stable/738068	Students who possess any aptitude at all for the mental hearing of printed	music	should be urged to give part of their daily study to such sort of
+
+
+
+
+Mon Dec 19 2022 19:16:32 GMT+0100 (Ora standard dell’Europa centrale)
+Mismatch error in query: music, keyword, Books, EN
+
+
+
+
+Mon Dec 19 2022 19:17:22 GMT+0100 (Ora standard dell’Europa centrale)
+Typo error in query: music, keyword, Books, EN
+sent_4	http://www.jstor.org/stable/738068	Piano	music	may be memorized in three ways: by ear, by visual memory, either of the
+sent_5	http://www.jstor.org/stable/738068	In memorizing	music	after this fashion, the additional mental action is involved of transferring the visual image
+
+
+
+
+Mon Dec 19 2022 19:17:40 GMT+0100 (Ora standard dell’Europa centrale)
+Full sentence error in query: music, keyword, Books, EN
+sent_8	http://www.jstor.org/stable/1412125	account of the insect supply, and are thus often within hearing of the intricate	music	of babbling brooks.
+
+
+
