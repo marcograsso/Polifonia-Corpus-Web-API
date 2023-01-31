@@ -4,6 +4,29 @@
 This repository is missing db files, whish should be grouped in a folder called "annotations".
 The annotations folder contains two other folders, one for the database files (annotations/db) and another one for metadata (annotations/metadata). 
 
+```
+Polifonia-Corpus-Web-API
+│   README.md
+│   app.py
+│   requirements.txt
+│   .gitignore
+│   .gitattributes
+└───annotations
+│   │   
+│   └───db
+│   │    Books-EN.db
+│   │    Wikipedia-EN.db
+│   │    ...
+│   └───metadata
+│        books_corpus_metadataEN.tsv
+│        wikipedia_corpus_metadataEN.tsv
+│        ...
+└───interrogation
+└───static
+└───templates
+
+```
+
 
 Database file for *pilot* modules are named as follows: 
 `` Pilots-{Pilot name}-{LANGUAGE}.db  ``
