@@ -1,11 +1,12 @@
-import argparse
 import csv
 from nltk.corpus import wordnet as wn
 import os
+import re
 from interrogation.db_utils import *
-import wget
 import pickle
 import sys
+import pandas as pd
+
 
 def annotation2dict(annotation):
     annotation_ = [a.split('\t') for a in annotation]
@@ -36,107 +37,66 @@ def annotation2dict(annotation):
         i+=1
     return annotation_dict
 
+#------------------------------------------------ CONCEPT -----------------------------------------------
 
-def print_sents_concepts(results, query):
-    #cols = [column[0] for column in results.description]
-    #results = pd.DataFrame.from_records(data=results.fetchall(), columns=cols)
+def print_sents_concepts(results, query, sent_n, count, corpus, lang):
     Results = []
-    for result in results:
-        res = [result[0], result[1], result[2].split('\n')[2]]
-        annotation = annotation2dict(result[3].split('\n'))
-        key_concept = [(k, t) for k, t in annotation.items() if t['offset'] == query]
-        try:
-            annotation_ = list(annotation.values())
-            #idx = int(key_concept[0][0].split('_')[1])
-            idx = [i for i, (k, v) in enumerate(annotation.items()) if k == key_concept[0][0]][0]
-            print(res[0].ljust(30), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx-14,idx)]).rjust(60), annotation_[idx]['form'].center(10), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx+1,idx+15)]).ljust(60))
-            Results.append(res)
-        except:
-            continue
-    return Results
-
-def print_sents_lemma(results, query):
-    #cols = [column[0] for column in results.description]
-    #results = pd.DataFrame.from_records(data=results.fetchall(), columns=cols)
-    Results = []
-    for result in results:
-        res = [result[0], result[1], result[2].split('\n')[2]]
-        annotation = annotation2dict(result[3].split('\n'))
-        key_concept = [(k, t) for k, t in annotation.items() if t['lemma'] == query]
-        try:
-            annotation_ = list(annotation.values())
-            #idx = int(key_concept[0][0].split('_')[1])
-            idx = [i for i, (k, v) in enumerate(annotation.items()) if k == key_concept[0][0]][0]
-            print(res[0].ljust(30), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx-14,idx)]).rjust(60), annotation_[idx]['form'].center(10), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx+1,idx+15)]).ljust(60))
-            Results.append(res)
-        except:
-            continue
-    return Results
-
-
-def print_sents_entities(results, query):
-    #cols = [column[0] for column in results.description]
-    #results = pd.DataFrame.from_records(data=results.fetchall(), columns=cols)
-    Results = []
-    for result in results:
-        res = [result[0], result[1], result[2].split('\n')[2]]
-        annotation = annotation2dict(result[3].split('\n'))
-        if len(list(annotation.values())[0]) == 6:
-            continue
-        key_concept = [(k, t) for k, t in annotation.items() if query.lower() in t['entity_link'].lower()]
-        try:
-            annotation_ = list(annotation.values())
-            idx = int(key_concept[0][0].split('_')[1])
-            print(res[0].ljust(30), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx-8,idx)]).rjust(60), annotation_[idx]['form'].center(10), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx+1,idx+9)]).ljust(60))
-            Results.append(res)
-        except:
-            continue
-    return Results
-
-
-def print_sents(results, query):
-    #cols = [column[0] for column in results.description]
-    #results = pd.DataFrame.from_records(data=results.fetchall(), columns=cols)
-    Results = []
+    Stats = [count]
     for result in results:
         try:
+
             res = [result[0], result[1], result[2].split('\n')[2]]
-            idx = res[2].split().index(query)
-            print(res[0].ljust(30), ' '.join(res[2].split()[idx-8:idx]).rjust(60), query.center(10), ' '.join(res[2].split()[idx+1:idx+9]).ljust(60))
-            Results.append(res)
+            annotation = annotation2dict(result[3].split('\n'))
+            key_concept = [(k, t) for k, t in annotation.items() if t['offset'] == query]
+            try:
+                annotation_ = list(annotation.values())
+                idx = [i for i, (k, v) in enumerate(annotation.items()) if k == key_concept[0][0]][0]
+                final_res = get_bib(res[0], corpus, lang), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx - 14, idx)]).rjust(60), annotation_[idx]['form'].center(10),' '.join([annotation_[idx_]['form'] for idx_ in range(idx + 1, idx + 15)]).ljust(60), result[2].split('\n')[2]
+                if len(Results) < int(sent_n):
+                    Results.append(final_res)
+            except:
+                continue
         except:
             continue
-    return Results
+    return Results, Stats
 
 
-def save_results(Results, query, type, db):
-    with open(os.path.join('out/', '_'.join([db,type,query]) +'.tsv'), 'w') as f:
-        writer = csv.writer(f, delimiter='\t')
-        writer.writerows(Results)
+def get_concept(query, concept_id):
+    lexicon = get_lexicon()
+    if concept_id:
+        concepts = wn.synsets(query)
+        if len(concepts) == 0:
+            print('Your query does not have concepts connected with it. Please try with another one or use the "keyword" search.')
+        elif len(concepts) > 1:
+            index = concept_id
+            concept = concepts[int(index)-1]
+        else:
+            concept = concepts[0]
+        offset = str(concept.offset())
+        while len(offset) < 8:
+            offset = '0' + offset
+        return 'wn:' + offset + concept.pos(), concept
+    else:
+        concepts = wn.synsets(query)
+        list_of_concepts = []
+        if len(concepts) == 0:
+            return  [[ "Concept", "No results found: your query does not have entities connected with it. Please try with another one or change language", "--", "--"]]
+        elif len(concepts) >= 1:
+            for i, concept in enumerate(concepts):
+                offset = get_offset(concept)
+                if offset in lexicon:
+                    n_concept = '{}. {} - {}'.format(i, concept.pos(), concept.definition())
+                    list_of_concepts+= [[ "Concept-Polifonia", n_concept, 'wn:' + str(i) + concept.pos(), "Polifonia Lexicon"]]
+                else:
+                    n_concept = '{}. {} - {}'.format(i, concept.pos(), concept.definition())
+                    list_of_concepts += [["Concept", n_concept, 'wn:' + str(i) + concept.pos(), ""]]
+            return list_of_concepts
 
-
-def select_sents_with_keyword(conn, query, sent_n):
-    c = conn.cursor()
-    offset = 0
-    more = ''
-    Results = []
-    count = c.execute(
-            """SELECT count(doc_id), sent_id, sent_text, sent_annotation, INSTR(sent_text, ?) instr_ FROM sents WHERE instr_ > 0 LIMIT ? OFFSET ? """,
-            (' ' + query + ' ', 10000000, offset))
-    mycount = count.fetchone()[0]
-    print(mycount)
-    while more != 'no':
-        c = conn.cursor()
-        #results = c.execute("""SELECT doc_id, sent_id, sent_text, sent_annotation FROM sents WHERE sent_text LIKE ? LIMIT ? OFFSET ? """, ('% '+query+' %', sent_n, offset))
-
-        results = c.execute(
-            """SELECT doc_id, sent_id, sent_text, sent_annotation, INSTR(sent_text, ?) instr_ FROM sents WHERE instr_ > 0 LIMIT ? OFFSET ? """,
-            (' ' + query + ' ', sent_n, offset))
-        Results+=print_sents(results, query)
-        more = input('Press "enter" for more sentences (type "no" and press "enter" to stop)')
-        offset+=sent_n
-    print(len(Results))
-    return [count, Results]
+def get_lexicon():
+    with open('interrogation/data/Polifonia_lexicon_v21.tsv') as f:
+        reader = csv.reader(f, delimiter='\t')
+        lexicon = {row[0] : [row[0]] + row[2:] for row in reader}
+    return lexicon
 
 def get_offset(concept):
     s = str(concept.offset())
@@ -145,194 +105,325 @@ def get_offset(concept):
     return 'wn:' + s + concept.pos()
 
 
-def get_concept(query, concepts):
-    lexicon = get_lexicon()
-    if len(concepts) == 0:
-        print('Your query does not have concepts connected with it. Please try with another one or use the "keyword" search.')
-    elif len(concepts) > 1:
-        print('The word {} is associated with {} concepts'.format(query, len(concepts)))
-        print('Please select one concept from the list below indicating its number:')
-        for i, concept in enumerate(concepts):
-            offset = get_offset(concept)
-            if offset in lexicon:
-                print('{}*. {} - {}'.format(i, concept.pos(), concept.definition()))
-            else:
-                print('{}. {} - {}'.format(i, concept.pos(), concept.definition()))
-        index = input()
-        concept = concepts[int(index)]
+def select_sents_with_concept(conn, query, sent_n, concept_id, corpus, lang):
+    wn_key, concept = get_concept(query, concept_id)
+    c = conn.cursor()
+    offset = 0
+    more = 'no'
+    Results = []
+    if corpus == "Wikipedia":
+        mycount = "more than 100.000"
     else:
-        concept = concepts[0]
-    print('The research is based on the concept defined as:\n{}:\t{}'.format(query, concept.definition()))
-    offset = str(concept.offset())
-    while len(offset) < 8:
-        offset = '0' + offset
-    return 'wn:' + offset + concept.pos(), concept
+        count = c.execute(
+        """SELECT count(doc_id), sent_id, sent_text, sent_annotation, INSTR(sent_annotation, ?) instr_ FROM sents WHERE instr_ > 0 LIMIT ? OFFSET ? """,
+        (wn_key, 10000000, offset))
+        mycount = count.fetchone()[0]
+    double_sent_n = str(int(sent_n)*2)
+    while more != '':
+        results = c.execute(
+        """SELECT doc_id, sent_id, sent_text, sent_annotation, INSTR(sent_annotation, ?) instr_ FROM sents WHERE instr_ > 0 LIMIT ? OFFSET ? """,
+        (wn_key, double_sent_n, offset))
+        Results+=print_sents_concepts(results, wn_key, sent_n, mycount, corpus, lang)
+        more = ''
+        offset += int(sent_n)
+    if not Results:
+        return [["Concept",
+                 "No results found!!!: your query does not have entities connected with it. Please try with another one or change language",
+                 "--", "--"]]
+    else:
+        return Results
+    # ------------------------------------------------ LEMMA -----------------------------------------------
 
-def select_sents_with_concept(conn, query, sent_n):
-    concepts = wn.synsets(query)
-    wn_key, concept = get_concept(query, concepts)
+def print_sents_lemma(results, query, count, corpus, lang):
+    Results = []
+    Stats = [count]
+    if not results:
+        return Results, Stats
+    else:
+        for result in results:
+            try:
+                res = [result[0], result[1], result[2].split('\n')[2]]
+                annotation = annotation2dict(result[3].split('\n'))
+                key_concept = [(k, t) for k, t in annotation.items() if t['lemma'] == query]
+                annotation_ = list(annotation.values())
+                #idx = int(key_concept[0][0].split('_')[1])
+                idx = [i for i, (k, v) in enumerate(annotation.items()) if k == key_concept[0][0]][0]
+                final_res = get_bib(res[0], corpus, lang), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx-14,idx)]).rjust(60), annotation_[idx]['form'].center(10), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx+1,idx+15)]).ljust(60), result[2].split('\n')[2]
+                Results.append(final_res)
+            except:
+                ## do something
+                continue
+        return Results, Stats
+
+def select_sents_with_lemma(conn, query, sent_n, corpus, lang):
     c = conn.cursor()
     offset = 0
-    more = ''
+    more = 'no'
     Results = []
-    count = c.execute("""SELECT count(doc_id), sent_id, sent_text, sent_annotation, INSTR(sent_annotation, ?) instr_ FROM sents WHERE instr_ > 0 LIMIT ? OFFSET ? """, (wn_key, 10000000, offset))
-    count = count.fetchone()[0]
-    c = conn.cursor()
-    while more != 'no':
-        results = c.execute("""SELECT doc_id, sent_id, sent_text, sent_annotation, INSTR(sent_annotation, ?) instr_ FROM sents WHERE instr_ > 0 LIMIT ? OFFSET ? """, (wn_key, sent_n, offset))
-        Results+=print_sents_concepts(results, wn_key)
-        more = input('Press "enter" for more sentences (type "no" and press "enter" to stop)')
-        offset+=sent_n
-    return [count, Results]
-
-def select_sents_with_lemma(conn, query, sent_n):
-    c = conn.cursor()
-    offset = 0
-    more = ''
-    Results = []
-    count = c.execute(
+    if corpus == "Wikipedia":
+        mycount = "more than 100.000"
+    else:
+        count = c.execute(
         """SELECT count(doc_id), sent_id, sent_text, sent_annotation, INSTR(sent_annotation, ?) instr_ FROM sents WHERE instr_ > 0 LIMIT ? OFFSET ? """,
         (query, 10000000, offset))
-    count = count.fetchone()[0]
+        mycount = count.fetchone()[0]
     c = conn.cursor()
-    while more != 'no':
+    while more != '':
         results = c.execute(
         """SELECT doc_id, sent_id, sent_text, sent_annotation, INSTR(sent_annotation, ?) instr_ FROM sents WHERE instr_ > 0 LIMIT ? OFFSET ? """,
         (query, sent_n, offset))
-        Results+=print_sents_lemma(results, query)
+        Results+=print_sents_lemma(results, query, mycount, corpus, lang)
+        more = ''
+        offset += int(sent_n)
+    if not Results:
+        return [["Concept",
+                 "No results found: your query does not have entities connected with it. Please try with another one or change language",
+                 "--", "--"]]
+    else:
+        return Results
 
-        more = input('Press "enter" for more sentences (type "no" and press "enter" to stop)')
-        offset+=sent_n
-    return [count, Results]
+#------------------------------------------------ KEYWORD -----------------------------------------------
 
-def get_lexicon():
-    with open('data/Polifonia_lexicon_v21.tsv') as f:
-        reader = csv.reader(f, delimiter='\t')
-        lexicon = {row[0] : [row[0]] + row[2:] for row in reader}
-    return lexicon
+def print_sents(results, query, count, corpus, lang):
+    Results = []
+    Stats = [count]
+    if not results:
+        return Results, Stats
+    else:
+        for result in results:
+            try:
+                res = [result[0], result[1], result[2].split('\n')[2]]
+                res_list = res[2].split()
+                for i in [""] * 14:
+                    res_list.insert(0, i)
+                    res_list.append(i)
+                idx = res_list.index(query)
+                final_res =  get_bib(res[0], corpus, lang), ' '.join(res_list[idx - 14:idx]).rjust(60), query.center(10), ' '.join(res_list[idx + 1:idx + 15]).ljust(60), result[2].split('\n')[2]
+                Results.append(final_res)
+            except:
+                continue
+        return Results, Stats
+
+
+def select_sents_with_keyword(conn, query, sent_n, corpus, lang):
+    c = conn.cursor()
+    offset = 0
+    more = 'no'
+    Results = []
+    if corpus == "Wikipedia":
+        mycount = "more than 100.000"
+    else:
+        count = c.execute(
+        """SELECT count(doc_id), sent_id, sent_text, sent_annotation, INSTR(sent_text, ?) instr_ FROM sents WHERE instr_ > 0 LIMIT ? OFFSET ? """,
+        (' ' + query + ' ', 10000000, offset))
+        mycount = count.fetchone()[0]
+    while more != '':
+        c = conn.cursor()
+        results = c.execute(
+            """SELECT doc_id, sent_id, sent_text, sent_annotation, INSTR(sent_text, ?) instr_ FROM sents WHERE instr_ > 0 LIMIT ? OFFSET ? """,
+            (' ' + query + ' ', sent_n, offset))
+        Results += print_sents(results, query, mycount, corpus,lang)
+        more = ''
+        offset += int(sent_n)
+    if not Results:
+        return [["Concept",
+                 "No results found: your query does not have entities connected with it. Please try with another one or change language",
+                 "--", "--"]]
+    else:
+        return Results
+
+
+#------------------------------------------------ ENTITY -----------------------------------------------
+
+def print_sents_entities(results, query, sent_n, count, corpus, lang):
+    Results = []
+    Stats = [count]
+    for result in results:
+        try:
+            res = [result[0], result[1], result[2].split('\n')[2]]
+            annotation = annotation2dict(result[3].split('\n'))
+            if len(list(annotation.values())[0]) == 6:
+                continue
+            key_concept = [(k, t) for k, t in annotation.items() if query.lower() in t['entity_link'].lower()]
+            try:
+                annotation_ = list(annotation.values())
+                idx = int(key_concept[0][0].split('_')[1])
+                final_res = get_bib(res[0], corpus, lang), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx - 10, idx)]).rjust(60), annotation_[idx]['form'].center(10), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx + 1, idx + 10)]).ljust(60), result[2].split('\n')[2]
+                if len(Results) < int(sent_n):
+                    Results.append(final_res)
+            except:
+                continue
+        except:
+            continue
+    return Results, Stats
 
 def get_entities(query, lang):
-    with open('data/lex_ent_map.pkl', 'rb') as f:
+    with open('interrogation/data/lex_ent_map.pkl', 'rb') as f:
         ent_map = pickle.load(f)
     return ent_map[lang.upper()].get(query, [])
 
-def get_entity(query, entities, lang):
-    if len(entities) == 0:
-        print(
-            'Your query does not have entities connected with it. Please try with another one or use the "keyword" search.')
-        sys.exit()
-    with open('data/pages.pkl', 'rb') as f:
-        pages = pickle.load(f)
-    if len(entities) > 1:
-        print('The word {} is associated with {} entity'.format(query, len(entities)))
-        print('Please select one entity from the list below indicating its number:')
-        for i, concept in enumerate(entities):
-            print('{}. {} - {}'.format(i, concept, pages[lang.upper()][concept.replace(' ', '_')]))
-        index = input()
-        concept = entities[int(index)]
+def get_entity(query, lang, entity_id):
+    if entity_id:
+        entities = get_entities(query, lang)
+        if len(entities) == 0:
+            return [["Entity","No results found: your query does not have entities connected with it. Please try with another one or change language","--", "--"]]
+            sys.exit()
+        with open('interrogation/data/pages.pkl', 'rb') as f:
+            pages = pickle.load(f)
+        if len(entities) >= 1:
+            index = entity_id
+            entity = entities[int(index)-1]
+        return entity
     else:
-        concept = entities[0]
-    print('The research is based on the concept defined as:\n{}:\t{}'.format(query, pages[lang.upper()][concept.replace(' ', '_')]))
-    return concept
+        entities = get_entities(query,lang)
+        list_of_entities = []
+        if len(entities) == 0:
+            return [["Entity","No results found: your query does not have entities connected with it. Please try with another one or change language","--", "--"]]
+            sys.exit()
+        with open('interrogation/data/pages.pkl', 'rb') as f:
+            pages = pickle.load(f)
+        if len(entities) >= 1:
+            for i, concept in enumerate(entities):
+                n_entity = '{}. {} - {}'.format(i, concept, pages[lang.upper()][concept.replace(' ', '_')])
+                list_of_entities += [["Entity", n_entity, "--", "--"]]
+        return list_of_entities
 
-
-def select_sents_with_entity(conn, query, sent_n, lang):
-
-    # TO BE IMPLMEMENTED:
-    # use the Polifonia KB to retrieve all the entities related to a query
-    entities = get_entities(query, lang)
-    wkp_title = get_entity(query, entities, lang)
-
+def select_sents_with_entity(conn, query, sent_n, lang, entity_id, corpus):
+    wkp_title = get_entity(query, lang, entity_id)
     c = conn.cursor()
     offset = 0
-    more = ''
+    more = 'no'
     Results = []
-    count = c.execute(
+    if corpus == "Wikipedia":
+        mycount = "more than 100.000"
+    else:
+        count = c.execute(
         """SELECT count(doc_id), sent_id, sent_text, sent_annotation, INSTR(sent_annotation, ?) instr_ FROM sents WHERE instr_ > 0 LIMIT ? OFFSET ? """,
         (wkp_title, 10000000, offset))
-    count = count.fetchone()[0]
-    while more != 'no':
+        mycount = count.fetchone()[0]
+    double_sent_n = str(int(sent_n) * 2)
+    while more != '':
         results = c.execute(
         """SELECT doc_id, sent_id, sent_text, sent_annotation, INSTR(sent_annotation, ?) instr_ FROM sents WHERE instr_ > 0 LIMIT ? OFFSET ? """,
-        (wkp_title, sent_n, offset))
-        Results+=print_sents_entities(results, wkp_title)
-        more = input('Press "enter" for more sentences (type "no" and press "enter" to stop)')
-        offset+=sent_n
-    return count, Results
-
-
-
-def interrogate(annotations_path, corpus, lang, interrogation_type, query, sent_n, save_to_file):
-    if len(lang) != 2:
-        lang.capitalize()
-    db_path = os.path.join(annotations_path, corpus.capitalize() + '-' + lang + '.db')
-    if os.path.exists(db_path) == False:
-        download_annotations(annotations_path, corpus.capitalize(), lang.upper())
-    conn = create_connection(db_path)
-    if interrogation_type == 'keyword':
-        count, Results = select_sents_with_keyword(conn, query, sent_n)
-    elif interrogation_type == 'concept':
-        count, Results = select_sents_with_concept(conn, query, sent_n)
-    elif interrogation_type == 'lemma':
-        count, Results = select_sents_with_lemma(conn, query, sent_n)
-    elif interrogation_type == 'entity':
-        count, Results = select_sents_with_entity(conn, query, sent_n, lang)
-    if save_to_file == 'Yes':
-        save_results(Results, query, 'keyword', corpus)
-        print('{} sentences stored'.format(len(Results)))
-
-
-def bar_progress(current, total, width=80):
-  progress_message = "Downloading: %d%% [%d / %d] bytes" % (current / total * 100, current, total)
-  # Don't use print() as it will print in new line every time.
-  sys.stdout.write("\r" + progress_message)
-  sys.stdout.flush()
-
-def download_annotations(annotations_path, module, lang):
-    db_names = dict()
-    with open(os.path.join(annotations_path, 'urls.csv')) as f:
-        for i, line in enumerate(f.readlines()):
-            if i == 0:
-                continue
-            name, lang_, url = line.split(',')
-            url=url.strip()
-            db_names['_'.join([name, lang_])] = url
-    url = db_names.get('_'.join([module, lang]), '')
-    if url == '-':
-        raise Exception('The access to the database you are trying to download is restricted. Please contact the developers to see if it is possible to obtain it.')
-    elif url == '':
-        raise Exception('The database that you are trying to download do not exist. Please try with different parameters.')
+        (wkp_title, double_sent_n, offset))
+        Results+=print_sents_entities(results, wkp_title, sent_n, mycount, corpus, lang)
+        more = ''
+        offset+=int(sent_n)
+    if not Results:
+        return [["Entity",
+                 "No results found!!!: your query does not have entities connected with it. Please try with another one or change language",
+                 "--", "--"]]
     else:
-        wget.download(url, out='../annotations/db/', bar=bar_progress)
+        return Results
 
-    #gdown.download(db_names[db_name], os.path.join(annotations_path, db_name + '.db'), quiet=False)
-            #response = requests.get(url, stream=True)
-            #total_size_in_bytes = int(response.headers.get('content-lenght', 0))
-            #block_size = 1024
-            #progress_bar = tqdm(total=total_size_in_bytes, unit='iB', unit_scale=True)
-            #with open(os.path.join(annotations_path, '_'.join([name, lang]) + '.db'), 'wb') as f:
-            #    for data in response.iter_content(block_size):
-            #        progress_bar.update(len(data))
-            #        f.write(data)
-            #    progress_bar.close()
-            #    if total_size_in_bytes != 0 and progress_bar.n != total_size_in_bytes:
-            #        print('ERROR: something went wrong!')
+#------------------------------------------------ BIBLIOGRAPHIC RECORD-----------------------------------------------
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--annotations_path', type=str, default='../annotations/db/')
-    parser.add_argument('--corpus', type=str, default='Wikipedia',
-                        help="It can be Wikipedia, Books, Periodicals or Pilots")
-    parser.add_argument('--lang', type=str, default='EN', help="It can be DE, EN, ES, FR, IT or NL")
-    parser.add_argument('--interrogation_type', type=str, default='keyword',
-                        help="It can be keyword, concept or entity")
-    parser.add_argument('--query', type=str, default='organ')
-    parser.add_argument('--sent_n', type=int, default=50)
-    parser.add_argument('--save_to_file', type=str, default='No')
-    return parser.parse_args()
+def get_bib(id, corpus, lang):
+    if corpus == "Books":
+        # df = pd.read_csv("annotations/metadata/books_corpus_metadataEN.tsv", sep='\t') # make false if no headers
+        # match = id
+        # data = df[df['url']==match] # gets all rows with this fruit
+        # year = data['year'].values
+        # print(year)
+        return id
+    elif corpus == "Periodicals":
+        x = id.split("__")
+        title = re.sub(r'(?<![A-Z\W])(?=[A-Z])', ' ', x[0]).strip()
+        year = x[1].split("-")[0]
+        number = "N. " + x[1].split("-")[1].replace(".txt", "")
+        bib_record = title + " " + number +" (" + year + ") "
+        return bib_record
+    elif corpus == "Wikipedia":
+        page_id = id.split("_bn")[0]
+        if lang == "EN":
+            page_link = "https://en.wikipedia.org/?curid=" + page_id
+        elif lang == "IT":
+            page_link = "https://it.wikipedia.org/?curid=" + page_id
+        elif lang == "FR":
+            page_link = "https://fr.wikipedia.org/?curid=" + page_id
+        elif lang == "DE":
+            page_link = "https://de.wikipedia.org/?curid=" + page_id
+        elif lang == "NL":
+            page_link = "https://nl.wikipedia.org/?curid=" + page_id
+        elif lang == "ES":
+            page_link = "https://es.wikipedia.org/?curid=" + page_id
+        return page_link
+    elif corpus == "Pilots-Child":
+        #df = pd.read_csv("annotations/metadata/pilots_corpus_child_metadata.tsv", sep='\t') # make false if no headers
+        #match = id.replace("Child__","")
+        #data = df[df['file']==match]          # gets all rows with this fruit
+        #title = data['title'].values[0]
+        #author = data['author_name'].values[0]
+        #year = data['time'].values[0] # gets value in relevant column
+        #bib_record = str(title) + ", " + str(author) + " (" + str(year).replace('-uu-uu','') + ")"
+        #print(bib_record)
+        return id
+    elif corpus == "Pilots-Organs":
+        df = pd.read_csv("annotations/metadata/pilots_corpus_organs_metadata.tsv", sep='\t') # make false if no headers
+        match = id
+        data = df[df['organid']==match]          # gets all rows with this fruit
+        title = data['name'].values[0]
+        year = data['year'].values[0] # gets value in relevant column
+        bib_record = str(title) + " (" + str(year).replace('-uu-uu','') + ")"
+        return bib_record
+    elif corpus == "Pilots-Bells":
+        df = pd.read_csv("annotations/metadata/pilots_corpus_bells_metadata.tsv", sep='\t', encoding = "ISO-8859-1") # make false if no headers
+        r_match = id.replace("BELLS__","")
+        match = r_match.replace(".txt","")
+        data = df[df['ID']==match]          # gets all rows with this fruit
+        title = data['TITOLO'].values[0]
+        author = data['AUTORE'].values[0]
+        bib_record = str(title) + ", " + str(author)
+        return bib_record
+    elif corpus == "Pilots-Musicbo":
+        df = pd.read_csv("annotations/metadata/pilots_corpus_musicbo_metadata.tsv", sep='\t', encoding = "ISO-8859-1") # make false if no headers
+        r_match = id.replace("MusicBO__", "")
+        match = r_match.replace(".txt", "")
+        data = df[df['id']==match]          # gets all rows with this fruit
+        title = data['title'].values[0]
+        author = data['author'].values[0]
+        year = data['published'].values[0]  # gets value in relevant column
+        bib_record = str(title) + ", " + str(author) + " (" + str(year).replace('-uu-uu', '') + ")"
+        return bib_record
+    elif corpus == "Pilots-Meetups":
+        page_id = id.split("_bn")[0]
+        page_link = "https://en.wikipedia.org/?curid=" + page_id
+        return page_link
+    else:
+        return id
 
-if __name__ == '__main__':
-    args = parse_args()
-    interrogate(args.annotations_path, args.corpus, args.lang, args.interrogation_type, args.query, args.sent_n, args.save_to_file)
+
+#------------------------------------------------ INTERROGATION -----------------------------------------------
+
+def interrogate(annotations_path, corpus, lang, interrogation_type, query, sent_n, concept_id, entity_id):
+    db_path = os.path.join(annotations_path, corpus.capitalize() + '-' + lang + '.db')
+    conn = create_connection(db_path)
+    if query == "":
+        Results = [["No results found","Please digit a lemma to start the search", "--", "--"]]
+        Stats = "The word is associated with 0 sentences."
+    elif interrogation_type == 'keyword':
+        Results, Stats = select_sents_with_keyword(conn, query, sent_n, corpus, lang)
+    elif interrogation_type == 'lemma':
+        Results, Stats = select_sents_with_lemma(conn, query, sent_n, corpus, lang)
+    elif interrogation_type == 'concept':
+        if concept_id:
+            Results, Stats = select_sents_with_concept(conn, query, sent_n, concept_id,corpus, lang)
+        else:
+            Results = get_concept(query, concept_id)
+            Stats = ""
+    elif interrogation_type == 'entity':
+        if entity_id:
+            Results, Stats = select_sents_with_entity(conn, query, sent_n, lang, entity_id, corpus)
+        else:
+            lower_query = query.lower()
+            Results = get_entity(lower_query, lang, entity_id)
+            Stats = ""
+    return Results, Stats
 
 
+#------------------------------------------------   Write issues to file-----------------------------------------------
+
+def write_issue(message):
+    with open("static/issues.txt", "a") as file_object:
+        file_object.write(message + "\n\n\n\n")
+    return "Report sent"

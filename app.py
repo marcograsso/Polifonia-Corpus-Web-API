@@ -1,9 +1,9 @@
 from flask import Flask, jsonify, render_template, request
 app = Flask(__name__)
-from interrogation.myinterrogate import *
+from interrogation.interrogate import *
 
 
-@app.route('/search')
+@app.route('/corpus/search')
 def search():
     query = request.args.get('a', 0, type=str)
     corpus = request.args.get('b', 0, type=str)
@@ -16,13 +16,13 @@ def search():
     results, stats = interrogate(path, corpus, lang, interrogation_type, query, sent_n, concept_id, entity_id)
     return jsonify(result=results, stat= stats)
 
-@app.route('/report')
+@app.route('/corpus/report')
 def report():
     message = request.args.get('err', 0, type=str)
     results = write_issue(message)
     return jsonify(result=results)
 
-@app.route('/')
+@app.route('/corpus')
 def index():
     return render_template('index.html')
     

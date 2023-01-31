@@ -83,7 +83,7 @@
        document.getElementById("select").classList.remove('expand');
       };
 
-      currentRequest = $.getJSON($SCRIPT_ROOT + '/search', {
+      currentRequest = $.getJSON($SCRIPT_ROOT + '/corpus/search', {
         a: currentLemma,
         b: currentModule,
         c: currentLang,
@@ -158,7 +158,7 @@
       $("#select_all").prop('checked', false);
       var number = parseInt(currentNumb);
       var value = number + more_button_clicks
-      $.getJSON($SCRIPT_ROOT + '/search', {
+      $.getJSON($SCRIPT_ROOT + '/corpus/search', {
         a: currentLemma,
         b: currentModule,
         c: currentLang,
@@ -367,7 +367,7 @@ function send_report() {
   var report_message = timeStamp + "\n" + error_message + "\n" + final_csv
 
   if (final_csv!= "") {
-  currentReport = $.getJSON($SCRIPT_ROOT + '/report', {
+  currentReport = $.getJSON($SCRIPT_ROOT + '/corpus/report', {
     err: report_message,
   }, function(data) {
 
@@ -439,7 +439,7 @@ function concept_click() {
       $("#result").html("<img class='loader' src='static/svg/loader.gif'>");
       $("#select_all").show();
       more_button_clicks = 0;
-      currentRequest = $.getJSON($SCRIPT_ROOT + '/search', {
+      currentRequest = $.getJSON($SCRIPT_ROOT + '/corpus/search', {
         a: $('input[name="lemma"]').val(),
         b: $('select[name="module"]').val(),
         c: $('select[name="lang"]').val(),
@@ -502,7 +502,7 @@ function entity_click() {
       $("#result").html("<img class='loader' src='static/svg/loader.gif'>");
       $("#select_all").show();
       more_button_clicks = 0;
-      currentRequest = $.getJSON($SCRIPT_ROOT + '/search', {
+      currentRequest = $.getJSON($SCRIPT_ROOT + '/corpus/search', {
         a: $('input[name="lemma"]').val(),
         b: $('select[name="module"]').val(),
         c: $('select[name="lang"]').val(),

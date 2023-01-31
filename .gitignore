@@ -1,2 +1,6 @@
-annotations/
+annotations/db
+annotations/metadata
 venv/
+
+__pycache__
+.DS_Store
