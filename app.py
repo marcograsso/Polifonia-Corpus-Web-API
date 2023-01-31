@@ -4,7 +4,7 @@ from interrogation.myinterrogate import *
 
 
 @app.route('/search')
-def add_numbers():
+def search():
     query = request.args.get('a', 0, type=str)
     corpus = request.args.get('b', 0, type=str)
     lang = request.args.get('c', 0, type=str)
