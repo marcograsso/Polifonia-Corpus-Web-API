@@ -396,28 +396,34 @@ def get_bib(id, corpus, lang):
 #------------------------------------------------ INTERROGATION -----------------------------------------------
 
 def interrogate(annotations_path, corpus, lang, interrogation_type, query, sent_n, concept_id, entity_id):
-    db_path = os.path.join(annotations_path, corpus.capitalize() + '-' + lang + '.db')
-    conn = create_connection(db_path)
-    if query == "":
-        Results = [["No results found","Please digit a lemma to start the search", "--", "--"]]
-        Stats = "The word is associated with 0 sentences."
-    elif interrogation_type == 'keyword':
-        Results, Stats = select_sents_with_keyword(conn, query, sent_n, corpus, lang)
-    elif interrogation_type == 'lemma':
-        Results, Stats = select_sents_with_lemma(conn, query, sent_n, corpus, lang)
-    elif interrogation_type == 'concept':
-        if concept_id:
-            Results, Stats = select_sents_with_concept(conn, query, sent_n, concept_id,corpus, lang)
-        else:
-            Results = get_concept(query, concept_id)
-            Stats = ""
-    elif interrogation_type == 'entity':
-        if entity_id:
-            Results, Stats = select_sents_with_entity(conn, query, sent_n, lang, entity_id, corpus)
-        else:
-            lower_query = query.lower()
-            Results = get_entity(lower_query, lang, entity_id)
-            Stats = ""
+    Results = []
+    Stats = ""
+    try:
+        db_path = os.path.join(annotations_path, corpus + '-' + lang + '.db')
+        conn = create_connection(db_path)
+        if query == "":
+            Results = [["No results found","Please digit a lemma to start the search", "--", "--"]]
+            Stats = "The word is associated with 0 sentences."
+        elif interrogation_type == 'keyword':
+            Results, Stats = select_sents_with_keyword(conn, query, sent_n, corpus, lang)
+        elif interrogation_type == 'lemma':
+            Results, Stats = select_sents_with_lemma(conn, query, sent_n, corpus, lang)
+        elif interrogation_type == 'concept':
+            if concept_id:
+                Results, Stats = select_sents_with_concept(conn, query, sent_n, concept_id,corpus, lang)
+            else:
+                Results = get_concept(query, concept_id)
+                Stats = ""
+        elif interrogation_type == 'entity':
+            if entity_id:
+                Results, Stats = select_sents_with_entity(conn, query, sent_n, lang, entity_id, corpus)
+            else:
+                lower_query = query.lower()
+                Results = get_entity(lower_query, lang, entity_id)
+                Stats = ""
+    except Exception as e:
+        print(e, "there is no such database")
+
     return Results, Stats
 
 
