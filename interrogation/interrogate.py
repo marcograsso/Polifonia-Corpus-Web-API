@@ -7,7 +7,6 @@ import pickle
 import sys
 import pandas as pd
 
-
 def annotation2dict(annotation):
     annotation_ = [a.split('\t') for a in annotation]
     annotation_dict = {}
@@ -396,8 +395,8 @@ def get_bib(id, corpus, lang):
 #------------------------------------------------ INTERROGATION -----------------------------------------------
 
 def interrogate(annotations_path, corpus, lang, interrogation_type, query, sent_n, concept_id, entity_id):
-    Results = []
-    Stats = ""
+    Results = [["No results found","There is no such database available at the moment", "--", "--"]]
+    Stats = "The word is associated with 0 sentences."
     try:
         db_path = os.path.join(annotations_path, corpus + '-' + lang + '.db')
         conn = create_connection(db_path)
