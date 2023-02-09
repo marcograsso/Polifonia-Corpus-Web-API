@@ -7,6 +7,9 @@ import pickle
 import sys
 import pandas as pd
 
+import nltk 
+nltk.data.path.append("./nltk_data")
+
 def annotation2dict(annotation):
     annotation_ = [a.split('\t') for a in annotation]
     annotation_dict = {}
