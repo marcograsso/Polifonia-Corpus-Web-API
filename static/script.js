@@ -284,8 +284,8 @@
     document.getElementById("view_label").classList.remove("view_label-active");
     lexiconList = lexiconEN;
     autocomplete(document.getElementById("lemma"), lexiconList);
-    $('.active-stats-module').html("Books");
-    changeStats(eval("statsBooks"));
+    $('.active-stats-module').html("All");
+    changeStats(eval("statsAll"));
     $('#stat-entities-icon').hide();
     $('#stat-entities').hide();
     $(".sent_source").remove();
@@ -718,7 +718,7 @@ function dropDownModule(){
         pilotsBack();
     }
 };
-
+var statsAll = ["624.117", "24.173.326", "450.861.842", "179.224.624", "128.905.937"]
 var statsWikipedia = ["542.855","15.766.277","433.027.712","13.087.096","112.237.539","42.295.944" ];
 var statsBooks = ["54.238","1.772.330","4.408.724","40.315.179", "1.939.962",""]
 var statsPeriodicals = ["5.753", "5.558.134", "10.969.779",	"98.628.040", "5.329.951",""];

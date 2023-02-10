@@ -19,7 +19,7 @@
 <div class="infobox" id="infobox">
 	<div class="general-title">
 		<p class="infobox-title">Explore music concepts <br> and texts from the <span class="highlight">Polifonia</span> Project. </p>
-		<p class="infobox-p">The corpus in numbers: <span class="active-stats-module">Books</span></p>
+		<p class="infobox-p">The corpus in numbers: <span class="active-stats-module">All</span></p>
 	</div>
 	<div class="general-stats">
 		<div class="icon_stat">
@@ -27,35 +27,35 @@
 		</div>
 		<div class="tot_stat">
 			<p class="label_stat">documents</p>
-			<p class="count_stat" id="count_stat_1"><span class='count'>54</span>.<span class='count'>238</span></p>
+			<p class="count_stat" id="count_stat_1"><span class='count'>624</span>.<span class='count'>117</span></p>
 		</div>
 		<div class="icon_stat">
 			<img class="icon-stat"  src="static/svg/stat-icon-2.svg">
 		</div>
 		<div class="tot_stat">
 			<p class="label_stat">sentences</p>
-			<p class="count_stat" id="count_stat_2"><span class='count'>1</span>.<span class='count'>772</span>.<span class='count'>330</span></p>
+			<p class="count_stat" id="count_stat_2"><span class='count'>24</span>.<span class='count'>173</span>.<span class='count'>326</span></p>
 		</div>
 		<div class="icon_stat">
 			<img class="icon-stat"  src="static/svg/stat-icon-3.svg">
 		</div>
 		<div class="tot_stat">
 			<p class="label_stat">tokens</p>
-			<p class="count_stat" id="count_stat_3"><span class='count'>4</span>.<span class='count'>408</span>.<span class='count'>724</span></p>
+			<p class="count_stat" id="count_stat_3"><span class='count'>450</span>.<span class='count'>861</span>.<span class='count'>842</span></p>
 		</div>
 		<div class="icon_stat">
 			<img class="icon-stat"  src="static/svg/stat-icon-4.svg">
 		</div>
 		<div class="tot_stat">
 			<p class="label_stat">types</p>
-			<p class="count_stat" id="count_stat_4"><span class='count'>40</span>.<span class='count'>315</span>.<span class='count'>179</span></p>
+			<p class="count_stat" id="count_stat_4"><span class='count'>179</span>.<span class='count'>224</span>.<span class='count'>624</span></p>
 		</div>
 		<div class="icon_stat">
 			<img class="icon-stat"  src="static/svg/stat-icon-5.svg">
 		</div>
 		<div class="tot_stat">
 			<p class="label_stat">links</p>
-			<p class="count_stat" id="count_stat_5"><span class="count">1</span>.<span class='count'>939</span>.<span class='count'>962</span></p>
+			<p class="count_stat" id="count_stat_5"><span class='count'>128</span>.<span class='count'>905</span>.<span class='count'>937</span></p>
 		</div>
 		<div class="icon_stat" id="stat-entities-icon">
 			<img class="icon-stat"  src="static/svg/stat-icon-6.svg">
@@ -68,6 +68,7 @@
 	</div>
 </div>
 <div class="infobox" id="infobox_about">
+	<button class="backtoolbutton" onclick="openMain()">Back to tool</button>
 	<div class="general-title"><p class="infobox-title">Learn more <span class="highlight">About</span> <br> the corpus of the Project. </p></div>
 	<div class="about-content">
 		<p>The Polifonia Textual Corpus is a plurilingual diachronic corpus focused on Musical Heritage (MH) covering Italian, English, French, Spanish and Dutch.  Natural LanguageProcessing (NLP) techniques were used to process the corpus and produce automatic morphosyntactic, semanticand MH-specific annotations. Custom APIs have been developed and released to enable domain experts, scholars and music professionals to leverage the annotations produced to perform advanced structured queries on the corpus.The available interrogation capabilities overcome the basic keyword-based search, offering the possibility of querying the corpus by taking advantage of the advanced semantic and MH-specific information encoded in the annotation.</p>
@@ -1080,6 +1081,7 @@ Given an input sentence (from the English Wikipedia module) such as:</p>
 	</div>
 </div>
 <div class="infobox" id="infobox_guide">
+	<button class="backtoolbutton" onclick="openMain()">Back to tool</button>
 	<div class="general-title"><p class="infobox-title">Let us <span class="highlight">Guide</span>  you through <br>the interrogation of the corpus.</p></div>
 	<div class="guide-content">
 		<p class="guide-content-p">The interactive dashboard of this application website has been created to allow easy access to the Polifonia Corpus, with the employment of a user-friendly design that reminds of a music player. Different parameters have been implemented to select, navigate and store sentences of the corpus that satisfy a specific query. A default set of parameters has been established to allow a first round of interrogations. However, it is possible to rearrange parameters according to the user needs. In particular, four different types of interrogations (2) have been implemented, to determine peculiar linguistic investigations of the corpus.<p>
@@ -1305,7 +1307,11 @@ and related metadata; csv files, that reproduce the KWIC structure of the web in
 		</div>
 </div>
 <div id='result' class="result_box">
-		<p class="welcome-text">Please insert a <b>lemma</b> in the query input  box <br>Click on the <b>Run</b> button to start the query and interrogate the Polifonia Corpus</p>
+		<p class="welcome-text">Please insert a word in the <b>Query</b> input  box 
+			<br>Click on the <b>Run</b> button to start the query and interrogate the Polifonia Corpus
+			</p>
+		<p class="welcome-error-text">You can report <b>erros</b> by clicking on the Report Error button on the bottom left of this tool. 
+			<br>Additionally, <b>generic issues</b> can be reported via github or email in the about section.<br><br></p>
 	</div>
 <div id="bottom-spacer" class="bottom-spacer">
 	<input id="report_button" type="button" value="Report Error" disabled>
