@@ -94,6 +94,8 @@
         var stats = data.stat;
         var text_rows = filler_text(results);
         var stat_rows = filler_stats(stats, results);
+        $('.active-stats-module').html(currentModule); 
+        changeStats(eval("stats" + currentModule));
         if (currentType == "concept") {
             $("#select").html(text_rows);
             $("#stats").html(stat_rows);

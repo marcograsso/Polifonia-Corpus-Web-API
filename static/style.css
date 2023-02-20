@@ -34,7 +34,8 @@
 }
 
 .backtoolbutton {
-    line-height: 1.4em;
+    all: unset;
+   -webkit-appearance: none;
     border-top-right-radius: 18px;
     border-bottom-right-radius: 18px;
     padding: 8px;
@@ -44,17 +45,21 @@
     border: 1px solid transparent;
     outline: 2px solid transparent;
     box-shadow: 10px 0px 36px -14px black;
-    text-indent: 7px;
     background-color: #f4edec;
     background-image: url(svg/search-icon.svg);
     background-repeat: no-repeat, repeat;
     background-position: right 0.7em top 50%, 0 0;
     background-size: 1.3em auto, 100%;
-    font-weight: normal !important;
+    font-weight: 100 !important;
     position: fixed;
     top: 200px;
     cursor: pointer;
     transition: all 1s ease;
+    font-family: "HelveticaLt";
+    font-size: 0.9em;
+    letter-spacing: 0.03em;
+    line-height: 1.6em;
+    text-align: justify;
 }
 
 .backtoolbutton:hover {
