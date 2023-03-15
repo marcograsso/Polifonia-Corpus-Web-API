@@ -1,4 +1,30 @@
+---
+component-id: Polifonia-Corpus-Web-Api
+name: Polifonia Corpus Web App
+description: The web interface to explore and interrogate the Polifonia Corpus on the web
+type: 
+  - User Interface
+release-date: 2023-03-15
+release-number: latest
+work-package: WP1
+keywords:
+  - textual corpus
+  - linked open data
+  - kwic
+  - linguistic query
+licence: CC0
+release link: https://github.com/polifonia-project/Polifonia-Corpus-Web-API/releases/latest
+demo: https://polifonia.disi.unibo.it/corpus/
+running-instance: https://polifonia.disi.unibo.it/corpus/
+credits: Marco Grasso (UNIBO)
+related-components:
+  - Polifonia-Corpus
+---
+
 # Polifonia Corpus Web App
+This repository contains the script to access, parse, annotate and interrogate the data and metadata of the Polifonia Textual Corpus.
+
+[![DOI](https://zenodo.org/badge/577352811.svg)](https://zenodo.org/badge/latestdoi/577352811)
 
 ### Data
 This repository is missing db files, whish should be grouped in a folder called "annotations".
