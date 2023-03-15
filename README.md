@@ -22,7 +22,8 @@ related-components:
 ---
 
 # Polifonia Corpus Web App
-This repository contains the script to access, parse, annotate and interrogate the data and metadata of the Polifonia Textual Corpus.
+This repository contains the scripts and styling of the web interface created for interrogating the Polifonia-Corpus APIs. The designed interactive dashboard has been created to easily access the Polifonia Corpus and carries a user-friendly design based on a music player.
+
 
 [![DOI](https://zenodo.org/badge/577352811.svg)](https://zenodo.org/badge/latestdoi/577352811)
 
