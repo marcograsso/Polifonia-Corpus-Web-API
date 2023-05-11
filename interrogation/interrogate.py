@@ -432,7 +432,7 @@ def interrogate(annotations_path, corpus, lang, interrogation_type, query, sent_
                 Stats = ""
         elif interrogation_type == 'entity':
             if entity_id:
-                Results, Stats = select_sents_with_entity(conn, query, sent_n, lang, entity_id, corpus)
+                Results, Stats = select_sents_with_entity(conn, query.lower(), sent_n, lang, entity_id, corpus)
             else:
                 lower_query = query.lower()
                 Results = get_entity(lower_query, lang, entity_id)
