@@ -3,6 +3,7 @@ from nltk.corpus import wordnet as wn
 import os
 import re
 from interrogation.db_utils import *
+from interrogation.clean_latin1 import *
 import pickle
 import sys
 import pandas as pd
@@ -53,7 +54,11 @@ def print_sents_concepts(results, query, sent_n, count, corpus, lang):
             try:
                 annotation_ = list(annotation.values())
                 idx = [i for i, (k, v) in enumerate(annotation.items()) if k == key_concept[0][0]][0]
-                final_res = get_bib(res[0], corpus, lang), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx - 14, idx)]).rjust(60), annotation_[idx]['form'].center(10),' '.join([annotation_[idx_]['form'] for idx_ in range(idx + 1, idx + 15)]).ljust(60), result[2].split('\n')[2]
+                left_cont = ' '.join([annotation_[idx_]['form'] for idx_ in range(idx - 14, idx)]).rjust(60)
+                right_cont = ' '.join([annotation_[idx_]['form'] for idx_ in range(idx + 1, idx + 15)]).ljust(60)
+                full_sent = result[2].split('\n')[2]
+                final_res = get_bib(res[0], corpus, lang), decodeUnicode(left_cont), annotation_[idx]['form'].center(10), decodeUnicode(right_cont), decodeUnicode(full_sent)
+                # final_res = get_bib(res[0], corpus, lang), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx - 14, idx)]).rjust(60), annotation_[idx]['form'].center(10),' '.join([annotation_[idx_]['form'] for idx_ in range(idx + 1, idx + 15)]).ljust(60), result[2].split('\n')[2]
                 if len(Results) < int(sent_n):
                     Results.append(final_res)
             except:
@@ -150,7 +155,10 @@ def print_sents_lemma(results, query, count, corpus, lang):
                 annotation_ = list(annotation.values())
                 #idx = int(key_concept[0][0].split('_')[1])
                 idx = [i for i, (k, v) in enumerate(annotation.items()) if k == key_concept[0][0]][0]
-                final_res = get_bib(res[0], corpus, lang), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx-14,idx)]).rjust(60), annotation_[idx]['form'].center(10), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx+1,idx+15)]).ljust(60), result[2].split('\n')[2]
+                left_cont = ' '.join([annotation_[idx_]['form'] for idx_ in range(idx-14,idx)]).rjust(60)
+                right_cont = ' '.join([annotation_[idx_]['form'] for idx_ in range(idx+1,idx+15)]).ljust(60)
+                full_sent = result[2].split('\n')[2]
+                final_res = get_bib(res[0], corpus, lang), decodeUnicode(left_cont), annotation_[idx]['form'].center(10), decodeUnicode(right_cont), decodeUnicode(full_sent)
                 Results.append(final_res)
             except:
                 ## do something
@@ -200,12 +208,14 @@ def print_sents(results, query, count, corpus, lang):
                     res_list.insert(0, i)
                     res_list.append(i)
                 idx = res_list.index(query)
-                final_res =  get_bib(res[0], corpus, lang), ' '.join(res_list[idx - 14:idx]).rjust(60), query.center(10), ' '.join(res_list[idx + 1:idx + 15]).ljust(60), result[2].split('\n')[2]
+                left_cont = ' '.join(res_list[idx - 14:idx]).rjust(60)
+                right_cont = ' '.join(res_list[idx + 1:idx + 15]).ljust(60)
+                full_sent = result[2].split('\n')[2]
+                final_res =  get_bib(res[0], corpus, lang), decodeUnicode(left_cont), query.center(10), decodeUnicode(right_cont), decodeUnicode(full_sent)
                 Results.append(final_res)
             except:
                 continue
         return Results, Stats
-
 
 def select_sents_with_keyword(conn, query, sent_n, corpus, lang):
     c = conn.cursor()
@@ -224,7 +234,7 @@ def select_sents_with_keyword(conn, query, sent_n, corpus, lang):
         results = c.execute(
             """SELECT doc_id, sent_id, sent_text, sent_annotation, INSTR(sent_text, ?) instr_ FROM sents WHERE instr_ > 0 LIMIT ? OFFSET ? """,
             (' ' + query + ' ', sent_n, offset))
-        Results += print_sents(results, query, mycount, corpus,lang)
+        Results +=print_sents(results, query, mycount, corpus,lang)
         more = ''
         offset += int(sent_n)
     if not Results:
@@ -250,7 +260,11 @@ def print_sents_entities(results, query, sent_n, count, corpus, lang):
             try:
                 annotation_ = list(annotation.values())
                 idx = int(key_concept[0][0].split('_')[1])
-                final_res = get_bib(res[0], corpus, lang), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx - 10, idx)]).rjust(60), annotation_[idx]['form'].center(10), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx + 1, idx + 10)]).ljust(60), result[2].split('\n')[2]
+                left_cont = ' '.join([annotation_[idx_]['form'] for idx_ in range(idx - 10, idx)]).rjust(60)
+                right_cont = ' '.join([annotation_[idx_]['form'] for idx_ in range(idx + 1, idx + 10)]).ljust(60)
+                full_sent = result[2].split('\n')[2]
+                final_res = get_bib(res[0], corpus, lang), decodeUnicode(left_cont), annotation_[idx]['form'].center(10), decodeUnicode(right_cont), decodeUnicode(full_sent)
+                #  final_res = get_bib(res[0], corpus, lang), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx - 10, idx)]).rjust(60), annotation_[idx]['form'].center(10), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx + 1, idx + 10)]).ljust(60), result[2].split('\n')[2]
                 if len(Results) < int(sent_n):
                     Results.append(final_res)
             except:
