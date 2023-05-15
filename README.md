@@ -29,7 +29,7 @@ This repository contains the source code of the web application created for inte
 [![DOI](https://zenodo.org/badge/577352811.svg)](https://zenodo.org/badge/latestdoi/577352811)
 
 ### Data
-This repository is missing db files, whish should be grouped in a folder called "annotations".
+This repository is missing db files, which should be grouped in a folder called "annotations".
 The annotations folder contains two other folders, one for the database files (annotations/db) and another one for metadata (annotations/metadata). 
 
 ```
