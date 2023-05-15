@@ -17,6 +17,7 @@ contributors:
 - Marco Grasso <https://github.com/roccotrip>
 - Rocco Tripodi <https://github.com/marcograsso>
 related-components:
+- reuses
   - Polifonia-Corpus
 ---
 
