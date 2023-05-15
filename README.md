@@ -1,28 +1,28 @@
 ---
-component-id: Polifonia-Corpus-Web-Api
-name: Polifonia Corpus Web App
-description: The web interface to explore and interrogate the Polifonia Corpus on the web
-type: 
-  - User Interface
+component-id: Polifonia-Corpus-Web-API
+type: WebApplication
+name: Polifonia Corpus Web API
+description: Source code of the Polifonia Corpus web application
+work-package: 
+- WP1
+project: polifonia-project
+resource: https://polifonia.disi.unibo.it/corpus/
 release-date: 2023-03-15
 release-number: latest
-work-package: WP1
-keywords:
-  - textual corpus
-  - linked open data
-  - kwic
-  - linguistic query
-licence: CC0
 release link: https://github.com/polifonia-project/Polifonia-Corpus-Web-API/releases/latest
-demo: https://polifonia.disi.unibo.it/corpus/
-running-instance: https://polifonia.disi.unibo.it/corpus/
-credits: Marco Grasso (UNIBO)
+doi: 10.5281/zenodo.7736486
+licence:
+- CC0
+contributors:
+- Marco Grasso <https://github.com/roccotrip>
+- Rocco Tripodi <https://github.com/marcograsso>
 related-components:
   - Polifonia-Corpus
 ---
 
-# Polifonia Corpus Web App
-This repository contains the scripts and styling of the web interface created for interrogating the Polifonia-Corpus APIs. The designed interactive dashboard has been created to easily access the Polifonia Corpus and carries a user-friendly design based on a music player.
+
+# Polifonia Corpus Web Application
+This repository contains the source code of the web application created for interrogating the Polifonia-Corpus APIs. The designed interactive dashboard has been created to easily access the Polifonia Corpus and carries a user-friendly design based on a music player.
 
 
 [![DOI](https://zenodo.org/badge/577352811.svg)](https://zenodo.org/badge/latestdoi/577352811)
