@@ -7,6 +7,7 @@ work-package:
 - WP1
 project: polifonia-project
 resource: https://polifonia.disi.unibo.it/corpus/
+demo: https://polifonia.disi.unibo.it/corpus/
 release-date: 2023-03-15
 release-number: latest
 release link: https://github.com/polifonia-project/Polifonia-Corpus-Web-API/releases/latest
