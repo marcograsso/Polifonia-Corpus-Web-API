@@ -727,11 +727,11 @@ var statsWikipedia = ["542.855","15.766.277","433.027.712","13.087.096","112.237
 var statsBooks = ["54.238","1.772.330","4.408.724","40.315.179", "1.939.962",""]
 var statsPeriodicals = ["5.753", "5.558.134", "10.969.779",	"98.628.040", "5.329.951",""];
 
-var statsPilotsBells = ["59","18.481","128.161","434.439", "128.708",""];
-var statsPilotsChild = ["30","157.815","361.550","3.442.840", "1.245.916",""];
-var statsPilotsMeetups = ["19.476","822.861","1.631.371","21.536.135", "7.534.211",""];
-var statsPilotsMusicbo = ["46","51.781","289.247","1.412.456", "420.849",""];
-var statsPilotsOrgans = ["1.660","25.647","45.298","368.439", "68.801",""];
+var statsBells = ["59","18.481","128.161","434.439", "128.708",""];
+var statsChild = ["30","157.815","361.550","3.442.840", "1.245.916",""];
+var statsMeetups = ["19.476","822.861","1.631.371","21.536.135", "7.534.211",""];
+var statsMusicbo = ["46","51.781","289.247","1.412.456", "420.849",""];
+var statsOrgans = ["1.660","25.647","45.298","368.439", "68.801",""];
 
 function changeStats(value) {
     for (i = 1; i <= value.length; i++) {
@@ -765,18 +765,27 @@ function changeModule(value) {
     $('.active-stats-module').html($select.value);
     if (!['Wikipedia', 'Periodicals', 'Books'].includes($select.value)) {
 
-        if ($select.value == "Pilots-Bells") {
+        if ($select.value == "Bells") {
         const $lang = document.querySelector('#lang');
         $lang.value = "IT";
         $("#lang").attr("disabled", true);
         autocomplete(document.getElementById("lemma"), lexiconIT);
 
-        } else if ($select.value == "Pilots-Organs") {
+        } else if ($select.value == "Organs") {
         const $lang = document.querySelector('#lang');
         $lang.value = "NL";
         $("#lang").attr("disabled", true);
         autocomplete(document.getElementById("lemma"), lexiconNL);
 
+        } else if ($select.value == "Musicbo") {
+          const $lang = document.querySelector('#lang');
+          $lang.value = "EN";
+          $("#lang").attr("disabled", false);
+          autocomplete(document.getElementById("lemma"), lexiconEN);
+          $('#option_lang-DE').hide();
+          $('#option_lang-FR').hide();
+          $('#option_lang-ES').hide();
+          $('#option_lang-NL').hide();
         } else {
         const $lang = document.querySelector('#lang');
         $lang.value = "EN";
@@ -804,6 +813,11 @@ function changeModule(value) {
         $("#lang").attr("disabled", false);
         dropdown_dwn_lang = 1;
         $('#lang').blur();
+
+        $('#option_lang-DE').show();
+        $('#option_lang-FR').show();
+        $('#option_lang-ES').show();
+        $('#option_lang-NL').show();
 
     };
     var reg = /\-/;

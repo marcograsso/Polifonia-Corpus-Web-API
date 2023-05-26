@@ -58,7 +58,7 @@ Polifonia-Corpus-Web-API
 
 
 Database file for *pilot* modules are named as follows: 
-`` Pilots-{Pilot name}-{LANGUAGE}.db  ``
+`` {Pilot name}-{LANGUAGE}.db  ``
 
 Database file for *other* modules are named as follows: 
 `` {Module name}-{LANGUAGE}.db ``
@@ -75,8 +75,8 @@ The db collection includes 3 modules (Books, Wikipedia, Periodicals), which are 
 
 The db collection also includes 5 pilot db files, which are only available in their specific language as listed below.
 
-- Pilots-Bells-IT.db
-- Pilots-Child-EN.db
-- Pilots-Meetups-EN.db
-- Pilots-Musicbo-EN.db
-- Pilots-Organs-NL.db
+- -Bells-IT.db
+- -Child-EN.db
+- -Meetups-EN.db
+- -Musicbo-EN.db
+- -Organs-NL.db

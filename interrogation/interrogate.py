@@ -1,9 +1,13 @@
-import csv
+import csv, sys
+
+import numpy as np
+
+sys.path.insert(0, './interrogation')
 from nltk.corpus import wordnet as wn
 import os
 import re
-from interrogation.db_utils import *
-from interrogation.clean_latin1 import *
+from db_utils import *
+from clean_latin1 import *
 import pickle
 import sys
 import pandas as pd
@@ -192,6 +196,18 @@ def select_sents_with_lemma(conn, query, sent_n, corpus, lang):
     else:
         return Results
 
+def consecutive(data, stepsize=1):
+    data = np.array(data)
+    return np.split(data, np.where(np.diff(data) != stepsize)[0]+1)
+
+def get_idx(res_list, query):
+    words = query.split(' ')
+    if all(x in res_list for x in words):
+        idxs = [res_list.index(word) for word in words]
+        idxs = consecutive(idxs)[0]
+    return idxs
+
+
 #------------------------------------------------ KEYWORD -----------------------------------------------
 
 def print_sents(results, query, count, corpus, lang):
@@ -202,15 +218,18 @@ def print_sents(results, query, count, corpus, lang):
     else:
         for result in results:
             try:
-                res = [result[0], result[1], result[2].split('\n')[2]]
+                list_idx = 2
+                if 'musicbo' in result[0].lower():
+                    list_idx = 0
+                res = [result[0], result[1], result[2].split('\n')[list_idx]]
                 res_list = res[2].split()
                 for i in [""] * 14:
                     res_list.insert(0, i)
                     res_list.append(i)
-                idx = res_list.index(query)
-                left_cont = ' '.join(res_list[idx - 14:idx]).rjust(60)
-                right_cont = ' '.join(res_list[idx + 1:idx + 15]).ljust(60)
-                full_sent = result[2].split('\n')[2]
+                idx = get_idx(res_list, query)
+                left_cont = ' '.join(res_list[idx[0] - 14:idx[0]]).rjust(60)
+                right_cont = ' '.join(res_list[idx[-1] + 1:idx[-1] + 15]).ljust(60)
+                full_sent = result[2].split('\n')[list_idx]
                 final_res =  get_bib(res[0], corpus, lang), decodeUnicode(left_cont), query.center(10), decodeUnicode(right_cont), decodeUnicode(full_sent)
                 Results.append(final_res)
             except:
@@ -338,7 +357,7 @@ def get_bib(id, corpus, lang):
     if corpus == "Books":
         # df = pd.read_csv("annotations/metadata/books_corpus_metadataEN.tsv", sep='\t') # make false if no headers
         # match = id
-        # data = df[df['url']==match] # gets all rows with this fruit
+        # data = df[df['url']==match] # gets all rows with this 
         # year = data['year'].values
         # print(year)
         return id
@@ -367,41 +386,44 @@ def get_bib(id, corpus, lang):
     elif corpus == "Pilots-Child":
         #df = pd.read_csv("annotations/metadata/pilots_corpus_child_metadata.tsv", sep='\t') # make false if no headers
         #match = id.replace("Child__","")
-        #data = df[df['file']==match]          # gets all rows with this fruit
+        #data = df[df['file']==match]          # gets all rows with this 
         #title = data['title'].values[0]
         #author = data['author_name'].values[0]
         #year = data['time'].values[0] # gets value in relevant column
         #bib_record = str(title) + ", " + str(author) + " (" + str(year).replace('-uu-uu','') + ")"
         #print(bib_record)
         return id
-    elif corpus == "Pilots-Organs":
+    elif corpus == "Organs":
         df = pd.read_csv("annotations/metadata/pilots_corpus_organs_metadata.tsv", sep='\t') # make false if no headers
         match = id
-        data = df[df['organid']==match]          # gets all rows with this fruit
+        data = df[df['organid']==match]          # gets all rows with this 
         title = data['name'].values[0]
         year = data['year'].values[0] # gets value in relevant column
         bib_record = str(title) + " (" + str(year).replace('-uu-uu','') + ")"
         return bib_record
-    elif corpus == "Pilots-Bells":
+    elif corpus == "Bells":
         df = pd.read_csv("annotations/metadata/pilots_corpus_bells_metadata.tsv", sep='\t', encoding = "ISO-8859-1") # make false if no headers
         r_match = id.replace("BELLS__","")
         match = r_match.replace(".txt","")
-        data = df[df['ID']==match]          # gets all rows with this fruit
+        data = df[df['ID']==match]          # gets all rows with this 
         title = data['TITOLO'].values[0]
         author = data['AUTORE'].values[0]
         bib_record = str(title) + ", " + str(author)
         return bib_record
-    elif corpus == "Pilots-Musicbo":
-        df = pd.read_csv("annotations/metadata/pilots_corpus_musicbo_metadata.tsv", sep='\t', encoding = "ISO-8859-1") # make false if no headers
-        r_match = id.replace("MusicBO__", "")
-        match = r_match.replace(".txt", "")
-        data = df[df['id']==match]          # gets all rows with this fruit
-        title = data['title'].values[0]
-        author = data['author'].values[0]
-        year = data['published'].values[0]  # gets value in relevant column
-        bib_record = str(title) + ", " + str(author) + " (" + str(year).replace('-uu-uu', '') + ")"
-        return bib_record
-    elif corpus == "Pilots-Meetups":
+    elif corpus == "Musicbo":
+        if lang == "EN":
+            df = pd.read_csv("annotations/metadata/pilots_corpus_musicbo_metadata.tsv", sep='\t', encoding = "ISO-8859-1") # make false if no headers
+            r_match = id.replace("Musicbo__EN__", "")
+            match = r_match.replace(".pdf.txt", "")
+            data = df[df['id']==match]          # gets all rows with this 
+            title = data['title'].values[0]
+            author = data['author'].values[0]
+            year = data['published'].values[0]  # gets value in relevant column
+            bib_record = str(title) + ", " + str(author) + " (" + str(year).replace('-uu-uu', '') + ")"
+            return bib_record
+        else:
+            return id 
+    elif corpus == "Meetups":
         page_id = id.split("_bn")[0]
         page_link = "https://en.wikipedia.org/?curid=" + page_id
         return page_link
