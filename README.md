@@ -15,8 +15,8 @@ doi: 10.5281/zenodo.7736486
 licence:
 - Cc010Universal
 contributors:
-- Marco Grasso <https://github.com/roccotrip>
-- Rocco Tripodi <https://github.com/marcograsso>
+- Marco Grasso <https://github.com/marcograsso>
+- Rocco Tripodi <https://github.com/roccotrip> 
 related-components:
 - reuses:
   - Polifonia-Corpus
