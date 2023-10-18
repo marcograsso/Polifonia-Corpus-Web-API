@@ -13,7 +13,7 @@ release-number: latest
 release link: https://github.com/polifonia-project/Polifonia-Corpus-Web-API/releases/latest
 doi: 10.5281/zenodo.7736486
 licence:
-- CC0
+- Cc010Universal
 contributors:
 - Marco Grasso <https://github.com/roccotrip>
 - Rocco Tripodi <https://github.com/marcograsso>
