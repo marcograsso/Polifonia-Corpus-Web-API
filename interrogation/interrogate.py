@@ -7,7 +7,6 @@ from nltk.corpus import wordnet as wn
 import os
 import re
 from db_utils import *
-from clean_latin1 import *
 import pickle
 import sys
 import pandas as pd
@@ -51,8 +50,10 @@ def print_sents_concepts(results, query, sent_n, count, corpus, lang):
     Stats = [count]
     for result in results:
         try:
-
-            res = [result[0], result[1], result[2].split('\n')[2]]
+            list_idx = 2
+            if 'musicbo' in result[0].lower():
+                list_idx = 0
+            res = [result[0], result[1], result[2].split('\n')[list_idx]]
             annotation = annotation2dict(result[3].split('\n'))
             key_concept = [(k, t) for k, t in annotation.items() if t['offset'] == query]
             try:
@@ -60,8 +61,8 @@ def print_sents_concepts(results, query, sent_n, count, corpus, lang):
                 idx = [i for i, (k, v) in enumerate(annotation.items()) if k == key_concept[0][0]][0]
                 left_cont = ' '.join([annotation_[idx_]['form'] for idx_ in range(idx - 14, idx)]).rjust(60)
                 right_cont = ' '.join([annotation_[idx_]['form'] for idx_ in range(idx + 1, idx + 15)]).ljust(60)
-                full_sent = result[2].split('\n')[2]
-                final_res = get_bib(res[0], corpus, lang), decodeUnicode(left_cont), annotation_[idx]['form'].center(10), decodeUnicode(right_cont), decodeUnicode(full_sent)
+                full_sent = result[2].split('\n')[list_idx]
+                final_res = get_bib(res[0], corpus, lang), left_cont , annotation_[idx]['form'].center(10), right_cont, full_sent
                 # final_res = get_bib(res[0], corpus, lang), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx - 14, idx)]).rjust(60), annotation_[idx]['form'].center(10),' '.join([annotation_[idx_]['form'] for idx_ in range(idx + 1, idx + 15)]).ljust(60), result[2].split('\n')[2]
                 if len(Results) < int(sent_n):
                     Results.append(final_res)
@@ -153,7 +154,10 @@ def print_sents_lemma(results, query, count, corpus, lang):
     else:
         for result in results:
             try:
-                res = [result[0], result[1], result[2].split('\n')[2]]
+                list_idx = 2
+                if 'musicbo' in result[0].lower():
+                    list_idx = 0
+                res = [result[0], result[1], result[2].split('\n')[list_idx]]
                 annotation = annotation2dict(result[3].split('\n'))
                 key_concept = [(k, t) for k, t in annotation.items() if t['lemma'] == query]
                 annotation_ = list(annotation.values())
@@ -161,8 +165,8 @@ def print_sents_lemma(results, query, count, corpus, lang):
                 idx = [i for i, (k, v) in enumerate(annotation.items()) if k == key_concept[0][0]][0]
                 left_cont = ' '.join([annotation_[idx_]['form'] for idx_ in range(idx-14,idx)]).rjust(60)
                 right_cont = ' '.join([annotation_[idx_]['form'] for idx_ in range(idx+1,idx+15)]).ljust(60)
-                full_sent = result[2].split('\n')[2]
-                final_res = get_bib(res[0], corpus, lang), decodeUnicode(left_cont), annotation_[idx]['form'].center(10), decodeUnicode(right_cont), decodeUnicode(full_sent)
+                full_sent = result[2].split('\n')[list_idx]
+                final_res = get_bib(res[0], corpus, lang), left_cont, annotation_[idx]['form'].center(10), right_cont, full_sent
                 Results.append(final_res)
             except:
                 ## do something
@@ -230,7 +234,7 @@ def print_sents(results, query, count, corpus, lang):
                 left_cont = ' '.join(res_list[idx[0] - 14:idx[0]]).rjust(60)
                 right_cont = ' '.join(res_list[idx[-1] + 1:idx[-1] + 15]).ljust(60)
                 full_sent = result[2].split('\n')[list_idx]
-                final_res =  get_bib(res[0], corpus, lang), decodeUnicode(left_cont), query.center(10), decodeUnicode(right_cont), decodeUnicode(full_sent)
+                final_res =  get_bib(res[0], corpus, lang), left_cont, query.center(10), right_cont, full_sent
                 Results.append(final_res)
             except:
                 continue
@@ -271,7 +275,10 @@ def print_sents_entities(results, query, sent_n, count, corpus, lang):
     Stats = [count]
     for result in results:
         try:
-            res = [result[0], result[1], result[2].split('\n')[2]]
+            list_idx = 2
+            if 'musicbo' in result[0].lower():
+                list_idx = 0
+            res = [result[0], result[1], result[2].split('\n')[list_idx]]
             annotation = annotation2dict(result[3].split('\n'))
             if len(list(annotation.values())[0]) == 6:
                 continue
@@ -281,8 +288,8 @@ def print_sents_entities(results, query, sent_n, count, corpus, lang):
                 idx = int(key_concept[0][0].split('_')[1])
                 left_cont = ' '.join([annotation_[idx_]['form'] for idx_ in range(idx - 10, idx)]).rjust(60)
                 right_cont = ' '.join([annotation_[idx_]['form'] for idx_ in range(idx + 1, idx + 10)]).ljust(60)
-                full_sent = result[2].split('\n')[2]
-                final_res = get_bib(res[0], corpus, lang), decodeUnicode(left_cont), annotation_[idx]['form'].center(10), decodeUnicode(right_cont), decodeUnicode(full_sent)
+                full_sent = result[2].split('\n')[list_idx]
+                final_res = get_bib(res[0], corpus, lang), left_cont, annotation_[idx]['form'].center(10), right_cont, full_sent
                 #  final_res = get_bib(res[0], corpus, lang), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx - 10, idx)]).rjust(60), annotation_[idx]['form'].center(10), ' '.join([annotation_[idx_]['form'] for idx_ in range(idx + 1, idx + 10)]).ljust(60), result[2].split('\n')[2]
                 if len(Results) < int(sent_n):
                     Results.append(final_res)
@@ -412,7 +419,7 @@ def get_bib(id, corpus, lang):
         return bib_record
     elif corpus == "Musicbo":
         if lang == "EN":
-            df = pd.read_csv("annotations/metadata/pilots_corpus_musicbo_metadata.tsv", sep='\t', encoding = "ISO-8859-1") # make false if no headers
+            df = pd.read_csv("annotations/metadata/pilots_corpus_musicbo_metadata_EN.tsv", sep='\t', encoding = "ISO-8859-1") # make false if no headers
             r_match = id.replace("Musicbo__EN__", "")
             match = r_match.replace(".pdf.txt", "")
             data = df[df['id']==match]          # gets all rows with this 

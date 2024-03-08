@@ -105,11 +105,14 @@
             document.getElementById("more_button").disabled = true;
             document.getElementById("report_button").disabled = true;
             document.getElementById("download_button").disabled = true;
+            document.getElementById("filter_button").disabled = true;
             document.getElementById("download_label").classList.remove("download_label-active");
+            document.getElementById("filter_label").classList.remove("filter_label-active");
                 document.getElementById("download_dropdown").style.display="none";
                 $("#download_dropdown-2").hide();
                 $("#download_dropdown-1").hide;
                 document.getElementById("download_button").classList.remove('download_button-active');
+                document.getElementById("filter_button").classList.remove('filter_button-active');
                 document.getElementById("view_button").classList.remove('view_button-active');
             document.getElementById("select_all").disabled = true;
             document.getElementById("view_button").disabled = true;
@@ -121,11 +124,14 @@
             document.getElementById("more_button").disabled = true;
             document.getElementById("report_button").disabled = true;
             document.getElementById("download_button").disabled = true;
+            document.getElementById("filter_button").disabled = true;
             document.getElementById("download_label").classList.remove("download_label-active");
+            document.getElementById("filter_label").classList.remove("filter_label-active");
                 document.getElementById("download_dropdown").style.display="none";
                 $("#download_dropdown-2").hide();
                 $("#download_dropdown-1").hide;
                 document.getElementById("download_button").classList.remove('download_button-active');
+                document.getElementById("filter_button").classList.remove('filter_button-active');
                 document.getElementById("view_button").classList.remove('view_button-active');
             document.getElementById("select_all").disabled = true;
             document.getElementById("view_button").disabled = true;
@@ -137,7 +143,9 @@
             document.getElementById("more_button").disabled = false;
             document.getElementById("report_button").disabled = false;
             document.getElementById("download_button").disabled = false;
+            document.getElementById("filter_button").disabled = false;
             document.getElementById("download_label").classList.add("download_label-active");
+            document.getElementById("filter_label").classList.add("filter_label-active");
             document.getElementById("select_all").disabled = false;
             source_click();
             sent_click();
@@ -267,11 +275,14 @@
     document.getElementById("report_button").disabled = true;
     document.getElementById("view_button").disabled = true;
     document.getElementById("download_button").disabled = true;
+    document.getElementById("filter_button").disabled = true;
     document.getElementById("download_label").classList.remove("download_label-active");
+    document.getElementById("filter_label").classList.remove("filter_label-active");
     document.getElementById("download_dropdown").style.display="none";
     $("#download_dropdown-2").hide();
     $("#download_dropdown-1").hide;
     document.getElementById("download_button").classList.remove('download_button-active');
+    document.getElementById("filter_button").classList.remove('filter_button-active');
     document.getElementById("view_button").classList.remove('view_button-active');
     document.getElementById("select_all").disabled = true;
     document.getElementById("result").innerHTML = "<p class='welcome-text'>Please insert a <b>lemma</b> in the query input  box <br>Click on the <b>Run</b> button to start the query and interrogate the Polifonia Corpus</p>";
@@ -465,7 +476,9 @@ function concept_click() {
           document.getElementById("more_button").disabled = false;
           document.getElementById("report_button").disabled = false;
           document.getElementById("download_button").disabled = false;
+          document.getElementById("filter_button").disabled = false;
           document.getElementById("download_label").classList.add("download_label-active");
+          document.getElementById("filter_label").classList.add("filter_label-active");
           document.getElementById("select_all").disabled = false;
           source_click();
           sent_click();
@@ -485,6 +498,84 @@ function selected_concept_click() {
       return false;
     });
 };
+
+var isChecked = false;
+
+function updateFilter() {
+  var inputText = document.getElementById('filterInput').value.toLowerCase();
+  var leftSentences = document.querySelectorAll('.sent_left');
+  var rightSentences = document.querySelectorAll('.sent_right');
+  var totalCount = 0;
+  isChecked = true;
+  doCheckFiltered()
+
+  if (inputText.trim() === '') {
+    // Clear all highlights
+    leftSentences.forEach(function(sentence) {
+      sentence.innerHTML = sentence.textContent;
+    });
+    rightSentences.forEach(function(sentence) {
+      sentence.innerHTML = sentence.textContent;
+    });
+    document.querySelectorAll('.sent_row').forEach(function(row) {
+      row.classList.remove('matching_row'); // Remove matching_row class from all rows
+    });
+    document.getElementById('resultCount').textContent = '';
+    document.getElementById('checkResultCount').style.display = 'none';
+    return; // Exit the function if input is empty
+  }
+
+  // Initialize an object to keep track of row matches
+  var rowMatches = {};
+
+  leftSentences.forEach(function(sentence) {
+    var text = sentence.textContent.toLowerCase();
+    var count = 0;
+    var parentDiv = sentence.parentNode;
+    var rowId = parentDiv.id; // Use the existing 'id' attribute of the parent div
+
+    if (text.includes(inputText)) {
+      sentence.innerHTML = text.replace(new RegExp(inputText, 'gi'), function(match) {
+        count++;
+        return '<span class="filter-highlight">' + match + '</span>';
+      });
+      totalCount += count;
+      rowMatches[rowId] = true;
+    } else {
+      sentence.innerHTML = text;
+    }
+  });
+
+  rightSentences.forEach(function(sentence) {
+    var text = sentence.textContent.toLowerCase();
+    var count = 0;
+    var parentDiv = sentence.parentNode;
+    var rowId = parentDiv.id; // Use the existing 'id' attribute of the parent div
+
+    if (text.includes(inputText)) {
+      sentence.innerHTML = text.replace(new RegExp(inputText, 'gi'), function(match) {
+        count++;
+        return '<span class="filter-highlight">' + match + '</span>';
+      });
+      totalCount += count;
+      rowMatches[rowId] = true;
+    } else {
+      sentence.innerHTML = text;
+    }
+  });
+
+  // Update row classes based on matches
+  document.querySelectorAll('.sent_row').forEach(function(row) {
+    if (rowMatches[row.id]) {
+      row.classList.add('matching_row');
+    } else {
+      row.classList.remove('matching_row');
+    }
+  });
+
+  document.getElementById('resultCount').textContent = 'Occurrencies: ' + totalCount;
+  document.getElementById('checkResultCount').style.display = 'block';
+}
 
 function entity_click() {
     $('.entity_row').bind('click', function() {
@@ -528,7 +619,9 @@ function entity_click() {
           document.getElementById("more_button").disabled = false;
           document.getElementById("report_button").disabled = false;
           document.getElementById("download_button").disabled = false;
+          document.getElementById("filter_button").disabled = false;
           document.getElementById("download_label").classList.add("download_label-active");
+          document.getElementById("filter_label").classList.add("filter_label-active");
           document.getElementById("select_all").disabled = false;
           source_click();
           sent_click();
@@ -599,6 +692,25 @@ function doCheckAll(checkboxElem) {
   }
 };
 
+function doCheckFiltered() {
+  var checkResultCount = document.getElementById("checkResultCount");
+  
+  // Toggle text of the checkResultCount
+  if (isChecked) {
+      checkResultCount.textContent = "Check results";
+      isChecked = false;
+      $(".matching_row :input").prop('checked', true).trigger("click");
+  } else {
+      checkResultCount.textContent = "Uncheck results";
+      isChecked = true;
+      document.getElementById("view_button").disabled = false;
+      $(".matching_row :input").prop('checked', false).trigger("click");
+  }
+  
+}
+
+
+
 
 
 // My view
@@ -645,6 +757,22 @@ function dropDown(){
         $("#download_dropdown-1").hide();
         dropdown_dwn = 0;
     }
+};
+
+// Dropdown filter
+var dropdown_dwn_filter = 1;
+
+
+function dropDownFilter(){
+  if(dropdown_dwn_filter == 0){
+      document.getElementById("filter_button").classList.remove('filter_button-active');
+      document.getElementById("filter_dropdown").style.display="none";
+      dropdown_dwn_filter = 1;
+  }else{
+      document.getElementById("filter_button").classList.add('filter_button-active');
+      document.getElementById("filter_dropdown").style.display="block";
+      dropdown_dwn_filter = 0;
+  }
 };
 
 function showOptionsAll() {
@@ -783,8 +911,6 @@ function changeModule(value) {
           $("#lang").attr("disabled", false);
           autocomplete(document.getElementById("lemma"), lexiconEN);
           $('#option_lang-DE').hide();
-          $('#option_lang-FR').hide();
-          $('#option_lang-ES').hide();
           $('#option_lang-NL').hide();
         } else {
         const $lang = document.querySelector('#lang');

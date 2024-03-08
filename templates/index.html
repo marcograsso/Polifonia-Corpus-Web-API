@@ -1268,6 +1268,16 @@ and related metadata; csv files, that reproduce the KWIC structure of the web in
 		<label id="view_label" class="view_label " for="view_button">View</label>
 		<input id="view_button" type="button" value="" onclick="my_view()" disabled>
 	</span>
+	<span class="activity_button entrance_filter">
+		<label id="filter_label" class="filter_label" for="filter_button">Find</label>
+		<input id="filter_button" type="button" onclick="dropDownFilter()" disabled>
+		<div id="filter_dropdown">
+			<p id="filterInputLabel">Find words in context:</p>
+			<input type="text" id="filterInput" placeholder="..." oninput="updateFilter()">
+			<div id="resultCount"></div>
+			<a id="checkResultCount" onClick="doCheckFiltered()">Check results</a>
+		</div>
+	</span>
 	<span class="activity_button entrance_download">
 		<label id="download_label" class="download_label" for="download_button">Download</label>
 		<input id="download_button" type="button" onclick="dropDown()" disabled>
@@ -1284,6 +1294,7 @@ and related metadata; csv files, that reproduce the KWIC structure of the web in
 			</div>
 		</div>
 	</span>
+
 
 </form>
 </div>
